@@ -6,31 +6,36 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 
-use Buisness\User\UserVO;
-use Illuminate\Auth\Authenticatable;
+use Buisness\User\ValueObject\UserLoginVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Infrastructure\Interfaces\ICommand;
 use Infrastructure\Repositories\UserRepository;
 use Tools\HttpStatuses;
 
 /**
  * @see \Tests\Unit\buisness\User\Command\LoginUserCommandTest
  */
-final class LoginUserCommand
+final class LoginUserCommand implements ICommand
 {
-    private array $data = [];
+    private UserLoginVO $user_login_vo;
+
+    public function __construct(UserLoginVO $user_login_vo)
+    {
+        $this->user_login_vo = $user_login_vo;
+    }
 
     /**
      * @throws \Exception
      */
     public function execute(): JsonResponse
     {
-        if(empty($this->data)){
+        if($this->user_login_vo->isNull()){
             throw new \Exception();
         }
         try {
-            $user = (new UserRepository())->getByLogin($this->data[UserVO::KEY_LOGIN]);
+            $user = (new UserRepository())->getByLogin($this->user_login_vo->getLogin(), $this->user_login_vo->getPassword());
         } catch (\Exception $e) {
             return response()->json()->setStatusCode(HttpStatuses::ERROR);
         }
@@ -43,11 +48,5 @@ final class LoginUserCommand
         }
 
         return response()->json()->setStatusCode(HttpStatuses::ERROR);
-    }
-
-    public function setData(array $data): self
-    {
-        $this->data = $data;
-        return $this;
     }
 }

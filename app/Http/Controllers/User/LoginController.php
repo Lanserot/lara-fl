@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Infrastructure\User\Mapper\UserMapper;
 use Tools\HttpStatuses;
 
 class LoginController extends Controller
@@ -34,9 +35,9 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json()->setStatusCode(HttpStatuses::NOT_BAD_REQUEST);
         }
-        return (new LoginUserCommand())
-            ->setData($data)
-            ->execute();
+        return (new LoginUserCommand(
+            (new UserMapper())->arrayLoginToVo($data))
+        )->execute();
     }
 
     public function logout()

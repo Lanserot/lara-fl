@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Buisness\User;
+namespace Buisness\User\ValueObject;
 
 /**
  * Class UserVO
