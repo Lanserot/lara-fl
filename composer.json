@@ -27,7 +27,8 @@
             "Tools\\": "tools/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Buisness\\": "buisness/"
+            "Buisness\\": "buisness/",
+            "Infrastructure\\": "infrastructure/"
         }
     },
     "autoload-dev": {

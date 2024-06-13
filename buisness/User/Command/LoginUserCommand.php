@@ -6,9 +6,12 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 
-use App\Models\User;
+use Buisness\User\UserVO;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Infrastructure\Repositories\UserRepository;
 use Tools\HttpStatuses;
 
 /**
@@ -27,14 +30,14 @@ final class LoginUserCommand
             throw new \Exception();
         }
         try {
-            $user = User::where(User::FIELD_LOGIN, $this->data[User::FIELD_LOGIN])->first();
+            $user = (new UserRepository())->getByLogin($this->data[UserVO::KEY_LOGIN]);
         } catch (\Exception $e) {
             return response()->json()->setStatusCode(HttpStatuses::ERROR);
         }
-        if (!$user) {
+        if ($user->isNull()) {
             return response()->json()->setStatusCode(HttpStatuses::NOT_FOUND);
         }
-        Auth::login($user);
+        Auth::login(new GenericUser($user->toArray()));
         if (Auth::check()) {
             return response()->json()->setStatusCode(HttpStatuses::SUCCESS);
         }

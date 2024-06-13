@@ -31,15 +31,15 @@ class LoginUserCommandTest extends TestCase
             $this->assertTrue(true);
             return;
         }
-        $this->assertEquals($result, $command_result->getData()->status);
+        $this->assertEquals($result, $command_result->getStatusCode());
     }
 
     static function userLoginProvider(): array
     {
         return [
-            [['login' => 'login'], HttpStatuses::SUCCESS],
-            [['login' => 'log'], HttpStatuses::NOT_FOUND],
-            [['login' => ''], HttpStatuses::NOT_FOUND],
+            'Успех' => [['login' => 'login'], HttpStatuses::SUCCESS],
+            'Кривой логин' => [['login' => 'log'], HttpStatuses::NOT_FOUND],
+            'Пустые данные' => [['login' => ''], HttpStatuses::NOT_BAD_REQUEST],
         ];
     }
 }
