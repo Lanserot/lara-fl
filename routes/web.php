@@ -18,6 +18,5 @@ Route::middleware(['not.login'])->group(function () {
 
 Route::get('/user/logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
 Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
-
-
-
+Route::get('/order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+Route::post('/order', [\App\Http\Controllers\Order\OrderController::class, 'post'])->name('order-post');
