@@ -58,7 +58,7 @@ class LoginUserCommandTest extends TestCase
                     UserVO::KEY_LOGIN => '',
                     UserVO::KEY_PASSWORD => '',
                 ],
-                HttpStatuses::NOT_BAD_REQUEST
+                HttpStatuses::BAD_REQUEST
             ],
         ];
     }

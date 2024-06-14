@@ -13,3 +13,6 @@ Laravel пет проект для глубокого изучения
 # Перезаписать бд #
 - php artisan migrate:refresh
 - php artisan db:seed
+
+# Сбросить бд #
+php artisan migrate:reset
