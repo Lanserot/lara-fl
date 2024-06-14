@@ -10,14 +10,14 @@ use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Infrastructure\Interfaces\ICommand;
+use Infrastructure\BaseCommand;
 use Infrastructure\Repositories\UserRepository;
 use Tools\HttpStatuses;
 
 /**
  * @see \Tests\Unit\buisness\User\Command\LoginUserCommandTest
  */
-final class LoginUserCommand implements ICommand
+final class LoginUserCommand extends BaseCommand
 {
     private UserVO $user_vo;
 
@@ -37,16 +37,16 @@ final class LoginUserCommand implements ICommand
         try {
             $user = (new UserRepository())->getByLogin($this->user_vo);
         } catch (\Exception $e) {
-            return response()->json()->setStatusCode(HttpStatuses::ERROR);
+            return $this->jsonAnswer(HttpStatuses::ERROR);
         }
         if ($user->isNull()) {
-            return response()->json()->setStatusCode(HttpStatuses::NOT_FOUND);
+            return $this->jsonAnswer(HttpStatuses::NOT_FOUND);
         }
         Auth::login(new GenericUser($user->toArray()));
         if (Auth::check()) {
-            return response()->json()->setStatusCode(HttpStatuses::SUCCESS);
+            return $this->jsonAnswer(HttpStatuses::SUCCESS);
         }
 
-        return response()->json()->setStatusCode(HttpStatuses::ERROR);
+        return $this->jsonAnswer(HttpStatuses::ERROR);
     }
 }
