@@ -26,6 +26,7 @@ Route::middleware(['not.login'])->group(function () {
 
 
 Route::get('/user/logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
+Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
 
 
 
