@@ -22,7 +22,9 @@ Route::get('/', function () {
 
 Route::middleware(['not.login'])->group(function () {
     Route::get('/user/login', [\App\Http\Controllers\User\LoginController::class, 'index'])->name('login');
-    Route::get('/user/login/get', [\App\Http\Controllers\User\LoginController::class, 'login'])->name('login-get');
+    Route::get('/user/login/get', [\App\Http\Controllers\User\LoginController::class, 'get'])->name('login-get');
+    Route::get('/user/registration', [\App\Http\Controllers\User\RegistrationController::class, 'index'])->name('registration');
+    Route::post('/user/registration', [\App\Http\Controllers\User\RegistrationController::class, 'post']);
 });
 
 

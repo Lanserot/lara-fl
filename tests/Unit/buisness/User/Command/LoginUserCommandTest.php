@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\buisness\User\Command;
 
 use Buisness\User\Command\LoginUserCommand;
-use Buisness\User\ValueObject\UserLoginVO;
+use Buisness\User\ValueObject\UserVO;
 use Infrastructure\User\Mapper\UserMapper;
 use Tests\TestCase;
 use Tools\HttpStatuses;
@@ -41,22 +41,22 @@ class LoginUserCommandTest extends TestCase
         return [
             'Успех' => [
                 [
-                    UserLoginVO::KEY_LOGIN => 'login',
-                    UserLoginVO::KEY_PASSWORD => 'password'
+                    UserVO::KEY_LOGIN => 'login',
+                    UserVO::KEY_PASSWORD => 'password'
                 ],
                 HttpStatuses::SUCCESS
             ],
             'Кривой логин или пароль' => [
                 [
-                    UserLoginVO::KEY_LOGIN => 'log',
-                    UserLoginVO::KEY_PASSWORD => '2312',
+                    UserVO::KEY_LOGIN => 'logint',
+                    UserVO::KEY_PASSWORD => 'qwerty',
                 ],
                 HttpStatuses::NOT_FOUND
             ],
             'Пустые данные' => [
                 [
-                    UserLoginVO::KEY_LOGIN => '',
-                    UserLoginVO::KEY_PASSWORD => '',
+                    UserVO::KEY_LOGIN => '',
+                    UserVO::KEY_PASSWORD => '',
                 ],
                 HttpStatuses::NOT_BAD_REQUEST
             ],

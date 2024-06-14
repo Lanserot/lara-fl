@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 
-use Buisness\User\ValueObject\UserLoginVO;
+use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -19,11 +19,11 @@ use Tools\HttpStatuses;
  */
 final class LoginUserCommand implements ICommand
 {
-    private UserLoginVO $user_login_vo;
+    private UserVO $user_vo;
 
-    public function __construct(UserLoginVO $user_login_vo)
+    public function __construct(UserVO $user_vo)
     {
-        $this->user_login_vo = $user_login_vo;
+        $this->user_vo = $user_vo;
     }
 
     /**
@@ -31,11 +31,11 @@ final class LoginUserCommand implements ICommand
      */
     public function execute(): JsonResponse
     {
-        if($this->user_login_vo->isNull()){
+        if($this->user_vo->isNull()){
             throw new \Exception();
         }
         try {
-            $user = (new UserRepository())->getByLogin($this->user_login_vo->getLogin(), $this->user_login_vo->getPassword());
+            $user = (new UserRepository())->getByLogin($this->user_vo);
         } catch (\Exception $e) {
             return response()->json()->setStatusCode(HttpStatuses::ERROR);
         }
