@@ -28,13 +28,9 @@ class UserController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, self::USER_RULES);
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            $message = '';
-            foreach ($errors->all() as $error) {
-                $message .= $error . ".";
-            }
-            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+        $validator = $this->validateData($validator);
+        if($validator){
+            return $validator;
         }
         if($data[UserVO::KEY_PASSWORD] != $data['password_repeat']){
             return response()->json(['message' => 'Diff password'])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
@@ -44,5 +40,29 @@ class UserController extends Controller
         return (new RegistrationUserCommand(
             $user_mapper->arrayLoginToVoHash($data))
         )->execute();
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [User::FIELD_EMAIL => self::USER_RULES[User::FIELD_EMAIL]]);
+        if($validator = $this->validateData($validator)){
+            return $validator;
+        }
+        return response()->json()->setStatusCode((HttpStatuses::ERROR)->value);
+    }
+
+    protected function validateData(\Illuminate\Validation\Validator $validator): ?JsonResponse
+    {
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $message = '';
+            foreach ($errors->all() as $error) {
+                $message .= $error . ".";
+            }
+            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+        }
+
+        return null;
     }
 }

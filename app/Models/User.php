@@ -20,6 +20,7 @@ class User extends Authenticatable
         self::FIELD_LOGIN,
         self::FIELD_EMAIL,
         self::FIELD_PASSWORD,
+        self::FIELD_ID,
     ];
 
     protected $hidden = [

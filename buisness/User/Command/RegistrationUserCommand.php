@@ -6,10 +6,14 @@ namespace Buisness\User\Command;
 
 use App\Models\User;
 use Buisness\User\ValueObject\UserVO;
+use Illuminate\Auth\GenericUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Infrastructure\BaseCommand;
+use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
+use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
 use Tools\HttpStatuses;
 
@@ -40,11 +44,20 @@ class RegistrationUserCommand extends BaseCommand
         try {
             /** @var UserRepository $user_repository */
             $user_repository = app(IUserRepository::class);
-            $user_repository->save($this->user_vo);
+            if(!$user_repository->save($this->user_vo)){
+                return $this->jsonAnswer((HttpStatuses::ERROR)->value);
+            }
         }catch (\Exception $e){
             return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
-        return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
+        $user_entity = $user_repository->getById($user_repository->getLastId());
+        /** @var UserMapper $mapper */
+        $mapper = app(IUserMapper::class);
+        Auth::login(new GenericUser($mapper->entityToArray($user_entity)));
+        if (Auth::check()) {
+            return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
+        }
+        return $this->jsonAnswer((HttpStatuses::ERROR)->value);
     }
 
     private function returnError(Model $user): JsonResponse

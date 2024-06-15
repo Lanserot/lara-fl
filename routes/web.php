@@ -14,14 +14,17 @@ Route::middleware(['not.login'])->group(function () {
     });
 });
 
-Route::apiResource('users', \App\Http\Controllers\User\Api\UserController::class)->names(
-    [
-        'store' => 'users.create',
-    ]
-)->only('store');
+Route::get('user/show/{id}', [\App\Http\Controllers\User\UserController::class, 'show'])->name('user.show');
+Route::get('user/edit/{id}', [\App\Http\Controllers\User\UserController::class, 'edit'])->name('user.edit');
 
-Route::get('users/{id}', [\App\Http\Controllers\User\UserController::class, 'show'])->name('users.show');
-Route::get('users/edit', [\App\Http\Controllers\User\UserController::class, 'change'])->name('users.change');
+Route::apiResource('user', \App\Http\Controllers\User\Api\UserController::class)->names(
+    [
+        'store' => 'user.create',
+        'update' => 'user.update'
+    ]
+)->only(['store', 'update']);
+
+
 
 Route::get('/user/logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
 Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);

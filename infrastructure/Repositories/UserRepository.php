@@ -14,6 +14,7 @@ use Infrastructure\Interfaces\User\IUserRepository;
 
 class UserRepository implements IUserRepository
 {
+    private int $last_id = 0;
     public function getByLogin(UserVO $user_vo): IUserEntity
     {
          $user = User::query()
@@ -33,7 +34,8 @@ class UserRepository implements IUserRepository
     public function save(UserVO $user): bool
     {
         try {
-            User::create($user->toArray());
+            $user = User::create($user->toArray());
+            $this->last_id = $user->id;
         }catch (\Exception $e){
             return false;
         }
@@ -54,5 +56,12 @@ class UserRepository implements IUserRepository
             $user->email,
             $user->id,
         );
+    }
+
+    public function getLastId(): int
+    {
+        $last_id = $this->last_id;
+        $this->last_id = 0;
+        return $last_id;
     }
 }

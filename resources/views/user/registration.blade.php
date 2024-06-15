@@ -22,7 +22,7 @@
     $(document).ready(function () {
         $('.sub-btn').click(function () {
             $.ajax({
-                url: '<?= route('users.create') ?>',
+                url: '<?= route('user.create') ?>',
                 type: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
