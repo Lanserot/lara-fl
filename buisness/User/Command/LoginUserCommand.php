@@ -11,7 +11,7 @@ use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Infrastructure\BaseCommand;
-use Infrastructure\Repositories\UserRepository;
+use Infrastructure\Interfaces\User\IUserRepository;
 use Tools\HttpStatuses;
 
 /**
@@ -35,7 +35,7 @@ final class LoginUserCommand extends BaseCommand
             throw new \Exception();
         }
         try {
-            $user = (new UserRepository())->getByLogin($this->user_vo);
+            $user = app(IUserRepository::class)->getByLogin($this->user_vo);
         } catch (\Exception $e) {
             return $this->jsonAnswer((HttpStatuses::ERROR)->value);
         }

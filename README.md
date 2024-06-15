@@ -14,5 +14,6 @@ Laravel пет проект для глубокого изучения
 - php artisan migrate:refresh
 - php artisan db:seed
 
-# Сбросить бд #
-php artisan migrate:reset
+composer install
+npm run dev
+.

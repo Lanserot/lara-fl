@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Infrastructure\BaseCommand;
-use Infrastructure\Repositories\UserRepository;
+use Infrastructure\Interfaces\User\IUserRepository;
 use Tools\HttpStatuses;
 
 /**
@@ -38,7 +38,7 @@ class RegistrationUserCommand extends BaseCommand
             return $this->returnError($user);
         }
         try {
-            (new UserRepository())->save(
+            app(IUserRepository::class)->save(
                 new UserEntity(
                     Hash::make($this->user_vo->getPassword()),
                     $this->user_vo->getLogin(),
