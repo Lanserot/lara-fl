@@ -29,7 +29,7 @@
         <ul class="navbar-nav mr-auto">
             @if (Auth::check())
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">{{ Auth::user()->login }}</a>
+                    <a class="nav-link" href="{{route('users.show', Auth::user()->id)}}">{{ Auth::user()->login }}</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('logout') }}">Выход</a>
@@ -37,6 +37,9 @@
             @else
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('login') }}">Логин</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('registration') }}">Регистрация</a>
                 </li>
             @endif
         </ul>

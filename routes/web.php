@@ -12,9 +12,16 @@ Route::middleware(['not.login'])->group(function () {
         Route::get('/login/get', [\App\Http\Controllers\User\LoginController::class, 'get'])->name('login-get');
         Route::get('/registration', [\App\Http\Controllers\User\RegistrationController::class, 'index'])->name('registration');
     });
-    Route::apiResource('users', \App\Http\Controllers\User\UserController::class)->names(['store' => 'users.create']);
-
 });
+
+Route::apiResource('users', \App\Http\Controllers\User\Api\UserController::class)->names(
+    [
+        'store' => 'users.create',
+    ]
+)->only('store');
+
+Route::get('users/{id}', [\App\Http\Controllers\User\UserController::class, 'show'])->name('users.show');
+Route::get('users/edit', [\App\Http\Controllers\User\UserController::class, 'change'])->name('users.change');
 
 Route::get('/user/logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
 Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);

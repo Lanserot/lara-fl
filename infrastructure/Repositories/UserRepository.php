@@ -29,6 +29,7 @@ class UserRepository implements IUserRepository
             $user[userVO::KEY_ID],
         );
     }
+
     public function save(UserVO $user): bool
     {
         try {
@@ -40,4 +41,18 @@ class UserRepository implements IUserRepository
         return true;
     }
 
+    public function getById(int $id): IUserEntity
+    {
+        $user = User::query()
+            ->where(User::FIELD_ID, '=', $id)
+            ->first();
+        if(!$user){
+            return new NullUserEntity();
+        }
+        return new UserEntity(
+            $user->login,
+            $user->email,
+            $user->id,
+        );
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\app\Http\Controllers\User;
 
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 use Tools\HttpStatuses;
@@ -12,7 +12,7 @@ use Tools\HttpStatuses;
 /**
  * Class UserControllerTest
  * @package Tests\Unit\app\Http\Controllers\User
- * @covers \App\Http\Controllers\User\UserController
+ * @covers \App\Http\Controllers\User\Api\UserController
  */
 class UserControllerTest extends TestCase
 {
