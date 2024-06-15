@@ -11,8 +11,6 @@ namespace Infrastructure\Interfaces\User;
 interface IUserEntity
 {
     public function getLogin(): string;
-
-    public function getPassword(): string;
-
+    public function getId(): int;
     public function getEmail(): string;
 }

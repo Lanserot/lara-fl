@@ -11,7 +11,10 @@ use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Infrastructure\BaseCommand;
+use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
+use Infrastructure\Mapper\User\UserMapper;
+use Infrastructure\Repositories\UserRepository;
 use Tools\HttpStatuses;
 
 /**
@@ -35,14 +38,18 @@ final class LoginUserCommand extends BaseCommand
             throw new \Exception();
         }
         try {
-            $user = app(IUserRepository::class)->getByLogin($this->user_vo);
+            /** @var UserRepository $rep */
+            $rep = app(IUserRepository::class);
+            $user = $rep->getByLogin($this->user_vo);
         } catch (\Exception $e) {
             return $this->jsonAnswer((HttpStatuses::ERROR)->value);
         }
-        if ($user->isNull()) {
+        if (!$user->getId()) {
             return $this->jsonAnswer((HttpStatuses::NOT_FOUND)->value);
         }
-        Auth::login(new GenericUser($user->toArray()));
+        /** @var UserMapper $mapper */
+        $mapper = app(IUserMapper::class);
+        Auth::login(new GenericUser($mapper->entityToArray($user)));
         if (Auth::check()) {
             return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
         }

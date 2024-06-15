@@ -9,7 +9,8 @@ use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Infrastructure\User\Mapper\UserMapper;
+use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Mapper\User\UserMapper;
 use Tools\HttpStatuses;
 
 /**
@@ -38,8 +39,10 @@ class UserController extends Controller
         if($data[UserVO::KEY_PASSWORD] != $data['password_repeat']){
             return response()->json(['message' => 'Diff password'])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
         }
+        /** @var UserMapper $user_mapper */
+        $user_mapper = app(IUserMapper::class);
         return (new RegistrationUserCommand(
-            (new UserMapper())->arrayLoginToVo($data))
+            $user_mapper->arrayLoginToVoHash($data))
         )->execute();
     }
 }

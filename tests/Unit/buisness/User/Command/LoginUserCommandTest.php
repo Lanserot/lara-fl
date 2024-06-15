@@ -6,7 +6,7 @@ namespace Tests\Unit\buisness\User\Command;
 
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
-use Infrastructure\User\Mapper\UserMapper;
+use Infrastructure\Interfaces\IUserMapper;
 use Tests\TestCase;
 use Tools\HttpStatuses;
 
@@ -26,7 +26,9 @@ class LoginUserCommandTest extends TestCase
      */
     public function testUserLogin(array $data, $result)
     {
-        $command = (new LoginUserCommand((new UserMapper())->arrayLoginToVo($data)));
+        /** @var \Infrastructure\Mapper\User\UserMapper $user_mapper */
+        $user_mapper = app(IUserMapper::class);
+        $command = (new LoginUserCommand($user_mapper->arrayLoginToVo($data)));
         try {
             $command_result = $command->execute();
         } catch (\Exception) {
