@@ -44,21 +44,21 @@ class LoginUserCommandTest extends TestCase
                     UserVO::KEY_LOGIN => 'login',
                     UserVO::KEY_PASSWORD => 'password'
                 ],
-                HttpStatuses::SUCCESS
+                (HttpStatuses::SUCCESS)->value
             ],
             'Кривой логин или пароль' => [
                 [
                     UserVO::KEY_LOGIN => 'logint',
                     UserVO::KEY_PASSWORD => 'qwerty',
                 ],
-                HttpStatuses::NOT_FOUND
+                (HttpStatuses::NOT_FOUND)->value
             ],
             'Пустые данные' => [
                 [
                     UserVO::KEY_LOGIN => '',
                     UserVO::KEY_PASSWORD => '',
                 ],
-                HttpStatuses::BAD_REQUEST
+                (HttpStatuses::BAD_REQUEST)->value
             ],
         ];
     }

@@ -37,16 +37,16 @@ final class LoginUserCommand extends BaseCommand
         try {
             $user = (new UserRepository())->getByLogin($this->user_vo);
         } catch (\Exception $e) {
-            return $this->jsonAnswer(HttpStatuses::ERROR);
+            return $this->jsonAnswer((HttpStatuses::ERROR)->value);
         }
         if ($user->isNull()) {
-            return $this->jsonAnswer(HttpStatuses::NOT_FOUND);
+            return $this->jsonAnswer((HttpStatuses::NOT_FOUND)->value);
         }
         Auth::login(new GenericUser($user->toArray()));
         if (Auth::check()) {
-            return $this->jsonAnswer(HttpStatuses::SUCCESS);
+            return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
         }
 
-        return $this->jsonAnswer(HttpStatuses::ERROR);
+        return $this->jsonAnswer((HttpStatuses::ERROR)->value);
     }
 }

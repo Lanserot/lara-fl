@@ -11,7 +11,6 @@ namespace Buisness\User\ValueObject;
 class UserVO
 {
     public const KEY_LOGIN = 'login';
-
     public const KEY_PASSWORD = 'password';
     public const KEY_ID = 'id';
     public const KEY_EMAIL = 'email';
@@ -24,8 +23,8 @@ class UserVO
     private function __construct(
         string $login,
         int    $id,
-        string    $email,
-        string    $password,
+        string $email,
+        string $password,
     )
     {
         $this->login = $login;

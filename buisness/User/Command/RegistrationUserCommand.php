@@ -46,9 +46,9 @@ class RegistrationUserCommand extends BaseCommand
                 )
             );
         }catch (\Exception $e){
-            return $this->jsonAnswer(HttpStatuses::ERROR, $e->getMessage());
+            return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
-        return $this->jsonAnswer(HttpStatuses::SUCCESS);
+        return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
     }
 
     private function returnError(Model $user): JsonResponse
@@ -60,6 +60,6 @@ class RegistrationUserCommand extends BaseCommand
         if ($user->email == $this->user_vo->getEmail()) {
             $message = 'Email exist';
         }
-        return $this->jsonAnswer(HttpStatuses::FOUND, $message);
+        return $this->jsonAnswer((HttpStatuses::FOUND)->value, $message);
     }
 }

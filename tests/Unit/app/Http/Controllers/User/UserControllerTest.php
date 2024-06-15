@@ -32,27 +32,27 @@ class UserControllerTest extends TestCase
     static function storeProvider(): array
     {
         return [
-            'Не хватает пароля' => ['CONTENT_TYPE' => ['login' => 'login'], HttpStatuses::BAD_REQUEST],
-            'Не хватает мыла' => [['email' => 'email'], HttpStatuses::BAD_REQUEST],
-            'Не хватает логина' => [['password' => 'password'], HttpStatuses::BAD_REQUEST],
+            'Не хватает пароля' => [['login' => 'login'], (HttpStatuses::BAD_REQUEST)->value],
+            'Не хватает мыла' => [['email' => 'email'], (HttpStatuses::BAD_REQUEST)->value],
+            'Не хватает логина' => [['password' => 'password'], (HttpStatuses::BAD_REQUEST)->value],
             'Пароли разные' => [[
                 'login' => 'login',
                 'email' => 'mail@mail.ru',
                 'password' => 'password',
                 'password_repeat' => 'password_repeat',
-            ], HttpStatuses::BAD_REQUEST],
+            ], (HttpStatuses::BAD_REQUEST)->value],
             'Логин занят' => [[
                 'login' => 'login',
                 'email' => 'test@mail.ru',
                 'password' => 'password',
                 'password_repeat' => 'password',
-            ], HttpStatuses::FOUND],
+            ], (HttpStatuses::FOUND)->value],
             'Мыло занято' => [[
                 'login' => 'login',
                 'email' => 'test@mail.ru',
                 'password' => 'password',
                 'password_repeat' => 'password',
-            ], HttpStatuses::FOUND],
+            ], (HttpStatuses::FOUND)->value],
         ];
     }
 

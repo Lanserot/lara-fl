@@ -4,13 +4,22 @@ declare(strict_types=1);
 
 namespace Tools;
 
-class HttpStatuses
+enum HttpStatuses: int
 {
-    public const SUCCESS = 200;
+    case SUCCESS = 200;
+    case FOUND = 302;
+    case BAD_REQUEST = 400;
+    case NOT_FOUND = 404;
+    case ERROR = 500;
 
-    public const FOUND = 302 ;
-    public const BAD_REQUEST = 400;
-    public const NOT_FOUND = 404;
-
-    public const ERROR = 500;
+    public function getDescription(): string
+    {
+        return match($this) {
+            self::SUCCESS => 'Успешный запрос',
+            self::FOUND => 'Найдено',
+            self::BAD_REQUEST => 'Неверный запрос',
+            self::NOT_FOUND => 'Не найдено',
+            self::ERROR => 'Внутренняя ошибка сервера',
+        };
+    }
 }

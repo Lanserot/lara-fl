@@ -33,7 +33,7 @@ class LoginController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, self::USER_RULES);
         if ($validator->fails()) {
-            return response()->json()->setStatusCode(HttpStatuses::BAD_REQUEST);
+            return response()->json()->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
         }
         return (new LoginUserCommand(
             (new UserMapper())->arrayLoginToVo($data))

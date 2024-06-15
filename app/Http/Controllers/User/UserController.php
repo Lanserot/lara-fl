@@ -33,10 +33,10 @@ class UserController extends Controller
             foreach ($errors->all() as $error) {
                 $message .= $error . ".";
             }
-            return response()->json(['message' => $message])->setStatusCode(HttpStatuses::BAD_REQUEST);
+            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
         }
         if($data[UserVO::KEY_PASSWORD] != $data['password_repeat']){
-            return response()->json(['message' => 'Diff password'])->setStatusCode(HttpStatuses::BAD_REQUEST);
+            return response()->json(['message' => 'Diff password'])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
         }
         return (new RegistrationUserCommand(
             (new UserMapper())->arrayLoginToVo($data))
