@@ -14,10 +14,10 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        \App\Http\Middleware\isLogin::class,
+        \App\Http\Middleware\isNotLogin::class,
     ];
     protected $routeMiddleware = [
-        'not.login' => \App\Http\Middleware\isLogin::class,
+        'not.login' => \App\Http\Middleware\isNotLogin::class,
     ];
     /**
      * The application's route middleware groups.
