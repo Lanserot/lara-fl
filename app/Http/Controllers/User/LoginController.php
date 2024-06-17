@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Buisness\User\Command\LoginUserCommand;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +25,7 @@ class LoginController extends Controller
         User::FIELD_PASSWORD => 'required|string|min:5',
     ];
 
-    public function index()
+    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('user/login');
     }
@@ -41,7 +45,7 @@ class LoginController extends Controller
         return (new LoginUserCommand($user_mapper->arrayLoginToVo($data)))->execute();
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         return redirect()->route('main');

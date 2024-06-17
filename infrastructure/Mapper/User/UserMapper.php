@@ -21,6 +21,7 @@ class UserMapper implements IUserMapper
             'id' => $user->getId(),
             'login' => $user->getLogin(),
             'email' => $user->getEmail(),
+            'password' => '',
         ];
     }
 

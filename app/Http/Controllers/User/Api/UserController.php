@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Buisness\User\Command\EditUserCommand;
 use Buisness\User\Command\RegistrationUserCommand;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,7 @@ use Infrastructure\Mapper\User\UserMapper;
 use Tools\HttpStatuses;
 
 /**
- * @see \Tests\Unit\app\Http\Controllers\User\UserControllerTest
+ * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest
  */
 class UserController extends Controller
 {
@@ -49,7 +50,9 @@ class UserController extends Controller
         if($validator = $this->validateData($validator)){
             return $validator;
         }
-        return response()->json()->setStatusCode((HttpStatuses::ERROR)->value);
+        return (new EditUserCommand(
+            $data[User::FIELD_EMAIL]
+        ))->execute();
     }
 
     protected function validateData(\Illuminate\Validation\Validator $validator): ?JsonResponse
