@@ -8,14 +8,18 @@ use App\Models\User;
 use Buisness\User\Entity\UserEntity;
 use Buisness\User\Entity\NullUserEntity;
 use Buisness\User\ValueObject\UserVO;
+use Buisness\UserInfo\Entity\NullUserInfoEntity;
+use Buisness\UserInfo\Entity\UserInfoEntity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Infrastructure\Interfaces\User\IUserEntity;
+use Infrastructure\Interfaces\User\IUserInfoEntity;
 use Infrastructure\Interfaces\User\IUserRepository;
 
 class UserRepository implements IUserRepository
 {
     private int $last_id = 0;
+
     public function getByLogin(UserVO $user_vo): IUserEntity
     {
         $user = User::query()
@@ -82,5 +86,19 @@ class UserRepository implements IUserRepository
         }
 
         return true;
+    }
+
+    public function getUserInfoByUserId(int $user_id): IUserInfoEntity
+    {
+        $user_info = User\UserInfo::getByUserIdOrCreate($user_id);
+        if (!$user_info) {
+            return new NullUserInfoEntity();
+        }
+        return new UserInfoEntity(
+            $user_info->name ?? '',
+            $user_info->second_name ?? '',
+            $user_info->description ?? '',
+            $user_info->id,
+        );
     }
 }

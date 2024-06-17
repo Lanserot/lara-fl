@@ -27,7 +27,8 @@ class UserController extends Controller
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }
-        return view('user/show', ['user' => $user]);
+        $user_info = $rep->getUserInfoByUserId($user->getId());
+        return view('user/show', ['user' => $user, 'user_info' => $user_info]);
     }
 
     public function edit(int $id): \Illuminate\Foundation\Application|View|Factory|Redirector|Application|RedirectResponse
@@ -41,6 +42,7 @@ class UserController extends Controller
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }
-        return view('user/edit', ['user' => $user]);
+        $user_info = $rep->getUserInfoByUserId($user->getId());
+        return view('user/edit', ['user' => $user, 'user_info' => $user_info]);
     }
 }
