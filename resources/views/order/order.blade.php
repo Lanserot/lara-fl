@@ -1,7 +1,7 @@
 <!-- resources/views/survey.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
-    <form action="{{ route('order-post') }}" method="POST">
+    <form action="{{ route('order.create') }}" method="POST">
         @csrf
         <div>
             <label for="title">Тема:</label>
@@ -12,7 +12,7 @@
             <input type="text" id="description" name="description" required>
         </div>
         <div>
-            <label for="user_id">Пидр ИДИ:</label>
+            <label for="user_id">ID Пользователя:</label>
             <input type="int" id="user_id" name="user_id" required>
         </div>
             <button type="submit">Submit</button>
