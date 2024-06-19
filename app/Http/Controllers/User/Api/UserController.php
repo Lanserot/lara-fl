@@ -15,30 +15,6 @@ use Infrastructure\Mapper\User\UserMapper;
 use Tools\HttpStatuses;
 
 /**
- * @OA\Info(
- *      version="1.0.0",
- *      title="API Documentation",
- *      description="API Documentation",
- * )
- * @OA\Get(
- *      path="/api/users",
- *      operationId="getUsersList",
- *      tags={"Users"},
- *      summary="Get list of users",
- *      description="Returns list of users",
- *      @OA\Response(
- *          response=200,
- *          description="Successful operation",
- *       ),
- *      @OA\Response(
- *          response=401,
- *          description="Unauthenticated",
- *      ),
- *      @OA\Response(
- *          response=403,
- *          description="Forbidden"
- *      )
- * )
  * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest
  */
 class UserController extends Controller

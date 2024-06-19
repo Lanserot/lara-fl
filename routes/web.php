@@ -21,7 +21,7 @@ Route::middleware(['is.login'])->group(function () {
         Route::get('logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
     });
 
-    Route::apiResource('user', \App\Http\Controllers\User\Api\UserController::class)->names(
+    Route::apiResource('api/users', \App\Http\Controllers\User\Api\UserController::class)->names(
         [
             'store' => 'user.create',
             'update' => 'user.update'
@@ -35,7 +35,6 @@ Route::middleware(['is.login'])->group(function () {
             'store' => 'order.create'
         ]
     )->only(['store']);
-
 });
 
 Route::get('/api/documentation/users', [\App\Http\Controllers\User\Api\UserController::class, 'index']);

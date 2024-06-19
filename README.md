@@ -19,5 +19,4 @@ npm run dev
 .
 
 # Swagger #
-генерация документов 
-- php artisan l5-swagger:generate
+api/documentation/
