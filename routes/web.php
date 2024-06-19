@@ -20,25 +20,16 @@ Route::middleware(['is.login'])->group(function () {
         Route::get('edit/{id}', [\App\Http\Controllers\User\UserController::class, 'edit'])->name('user.edit');
         Route::get('logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
     });
+    Route::prefix('site')->group(function () {
+        Route::get('about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
+        Route::get('order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+    });
+    Route::prefix('api/documentation')->group(function () {
+        Route::get('users', [\App\Http\Controllers\Tools\SwaggerController::class, 'users']);
+        Route::get('json', function () {
+            return response()->file(storage_path('api-docs/api-docs.json'));
+        });
+    });
 
-    Route::apiResource('api/users', \App\Http\Controllers\User\Api\UserController::class)->names(
-        [
-            'store' => 'user.create',
-            'update' => 'user.update',
-            'show' => 'user.show',
-        ]
-    )->only(['store', 'update', 'show']);
-
-    Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
-    Route::get('/order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
-    Route::apiResource('order', \App\Http\Controllers\Order\Api\OrderController::class)->names(
-        [
-            'store' => 'order.create'
-        ]
-    )->only(['store']);
 });
 
-Route::get('/api/documentation/users', [\App\Http\Controllers\User\Api\UserController::class, 'indexSwagger']);
-Route::get('/api/documentation/json', function () {
-    return response()->file(storage_path('api-docs/api-docs.json'));
-});

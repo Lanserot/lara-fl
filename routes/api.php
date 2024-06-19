@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['is.login'])->group(function () {
+    Route::apiResource('users', \App\Http\Controllers\User\Api\UserController::class)->names(
+        [
+            'store' => 'user.create',
+            'update' => 'user.update',
+            'show' => 'user.show',
+        ]
+    )->only(['store', 'update', 'show']);
+
+    Route::apiResource('orders', \App\Http\Controllers\Order\Api\OrderController::class)->names(
+        [
+            'store' => 'order.create'
+        ]
+    )->only(['store']);
 });
+

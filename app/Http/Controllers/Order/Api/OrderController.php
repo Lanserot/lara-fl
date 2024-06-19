@@ -20,7 +20,7 @@ class OrderController extends Controller{
             'description' => 'required|max:500',
             'user_id' => 'required|max:50'
         ]);
-        $validator = $this->validateData($validator);
+        $validator = \Infrastructure\Tools\Validator::validateData($validator);
         if($validator){
             return $validator;
         }
@@ -31,20 +31,4 @@ class OrderController extends Controller{
         }
         return response()->json()->setStatusCode((HttpStatuses::SUCCESS)->value);
     }
-    protected function validateData(\Illuminate\Validation\Validator $validator): ?JsonResponse
-    {
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            $message = '';
-            foreach ($errors->all() as $error) {
-                $message .= $error . ".";
-            }
-
-            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
-        }
-
-        return null;
-
-    }
-
 }

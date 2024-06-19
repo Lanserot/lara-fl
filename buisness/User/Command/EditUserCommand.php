@@ -14,6 +14,7 @@ use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
+use Infrastructure\Tools\JsonFormatter;
 use Tools\HttpStatuses;
 
 /**
@@ -36,10 +37,10 @@ class EditUserCommand extends BaseCommand
         try {
             $user = DB::table('users')->where(User::FIELD_EMAIL, $this->email)->first();
         } catch (\Exception $e) {
-            return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
         if ($user) {
-            return $this->jsonAnswer((HttpStatuses::FOUND)->value);
+            return JsonFormatter::makeAnswer((HttpStatuses::FOUND)->value);
         }
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
@@ -47,7 +48,7 @@ class EditUserCommand extends BaseCommand
         try {
             $user = $user_repository->getById($this->id);
         }catch (\Exception $e) {
-            return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
 
         /** @var UserMapper $user_mapper */
@@ -57,8 +58,8 @@ class EditUserCommand extends BaseCommand
         try {
             $user_repository->update($user_array);
         } catch (\Exception $e) {
-            return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
-        return $this->jsonAnswer((HttpStatuses::SUCCESS)->value);
+        return JsonFormatter::makeAnswer((HttpStatuses::SUCCESS)->value);
     }
 }
