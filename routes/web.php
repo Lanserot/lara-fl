@@ -14,28 +14,31 @@ Route::middleware(['not.login'])->group(function () {
     });
 });
 
-Route::get('user/show/{id}', [\App\Http\Controllers\User\UserController::class, 'show'])->name('user.show');
-Route::get('user/edit/{id}', [\App\Http\Controllers\User\UserController::class, 'edit'])->name('user.edit');
-
-Route::apiResource('user', \App\Http\Controllers\User\Api\UserController::class)->names(
-    [
-        'store' => 'user.create',
-        'update' => 'user.update'
-    ]
-)->only(['store', 'update']);
-
-
-
-Route::get('/user/logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
-Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
-
 Route::middleware(['is.login'])->group(function () {
-    Route::get('/order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+    Route::prefix('user')->group(function () {
+        Route::get('show/{id}', [\App\Http\Controllers\User\UserController::class, 'show'])->name('user.show');
+        Route::get('edit/{id}', [\App\Http\Controllers\User\UserController::class, 'edit'])->name('user.edit');
+        Route::get('logout', [\App\Http\Controllers\User\LoginController::class, 'logout'])->name('logout');
+    });
 
-    Route::apiResource('order', \App\Http\Controllers\Order\Api\OrderController::class)->names(
+    Route::apiResource('user', \App\Http\Controllers\User\Api\UserController::class)->names(
         [
-            'store' => 'order.create',
-            'update' => 'order.update'
+            'store' => 'user.create',
+            'update' => 'user.update'
         ]
     )->only(['store', 'update']);
+
+    Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
+    Route::get('/order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+    Route::apiResource('order', \App\Http\Controllers\Order\Api\OrderController::class)->names(
+        [
+            'store' => 'order.create'
+        ]
+    )->only(['store']);
+
+});
+
+Route::get('/api/documentation/users', [\App\Http\Controllers\User\Api\UserController::class, 'index']);
+Route::get('/api/documentation/json', function () {
+    return response()->file(storage_path('api-docs/api-docs.json'));
 });

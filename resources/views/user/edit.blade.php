@@ -1,8 +1,12 @@
+@php use Buisness\User\Entity\UserEntity; @endphp
 @include('resources.base.headers')
 <?php
-/** @var \Buisness\User\Entity\UserEntity $user */
+/** @var UserEntity $user */
 ?>
 <div>
+    <div class="form-group">
+        <input type="email" class="form-control" name="email" placeholder="Email" value="{{ $user->getEmail() }}">
+    </div>
     <div class="form-group">
         <input type="email" class="form-control" name="email" placeholder="Email" value="{{ $user->getEmail() }}">
     </div>

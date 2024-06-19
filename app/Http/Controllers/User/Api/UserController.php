@@ -15,6 +15,30 @@ use Infrastructure\Mapper\User\UserMapper;
 use Tools\HttpStatuses;
 
 /**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="API Documentation",
+ *      description="API Documentation",
+ * )
+ * @OA\Get(
+ *      path="/api/users",
+ *      operationId="getUsersList",
+ *      tags={"Users"},
+ *      summary="Get list of users",
+ *      description="Returns list of users",
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successful operation",
+ *       ),
+ *      @OA\Response(
+ *          response=401,
+ *          description="Unauthenticated",
+ *      ),
+ *      @OA\Response(
+ *          response=403,
+ *          description="Forbidden"
+ *      )
+ * )
  * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest
  */
 class UserController extends Controller
@@ -24,6 +48,15 @@ class UserController extends Controller
         User::FIELD_PASSWORD => 'required|string|min:7',
         User::FIELD_EMAIL => 'required|email',
     ];
+
+    public function index()
+    {
+        return view('vendor/l5-swagger/index', [
+            'documentation' => 'default',
+            'urlToDocs' => url('/api/documentation/json'),
+            'useAbsolutePath' => true
+        ]);
+    }
 
     public function store(Request $request): JsonResponse
     {
