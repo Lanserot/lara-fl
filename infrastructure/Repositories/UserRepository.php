@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Infrastructure\Repositories;
 
-use App\Models\User;
-use Buisness\User\Entity\UserEntity;
+use App\Models\User\User;
 use Buisness\User\Entity\NullUserEntity;
+use Buisness\User\Entity\UserEntity;
 use Buisness\User\ValueObject\UserVO;
 use Buisness\UserInfo\Entity\NullUserInfoEntity;
 use Buisness\UserInfo\Entity\UserInfoEntity;

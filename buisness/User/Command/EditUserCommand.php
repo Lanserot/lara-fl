@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Buisness\User\Command;
 
-use App\Models\User;
+use App\Models\User\User;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\IUserMapper;
