@@ -24,9 +24,10 @@ Route::middleware(['is.login'])->group(function () {
     Route::apiResource('api/users', \App\Http\Controllers\User\Api\UserController::class)->names(
         [
             'store' => 'user.create',
-            'update' => 'user.update'
+            'update' => 'user.update',
+            'show' => 'user.show',
         ]
-    )->only(['store', 'update']);
+    )->only(['store', 'update', 'show']);
 
     Route::get('/about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
     Route::get('/order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
@@ -37,7 +38,7 @@ Route::middleware(['is.login'])->group(function () {
     )->only(['store']);
 });
 
-Route::get('/api/documentation/users', [\App\Http\Controllers\User\Api\UserController::class, 'index']);
+Route::get('/api/documentation/users', [\App\Http\Controllers\User\Api\UserController::class, 'indexSwagger']);
 Route::get('/api/documentation/json', function () {
     return response()->file(storage_path('api-docs/api-docs.json'));
 });

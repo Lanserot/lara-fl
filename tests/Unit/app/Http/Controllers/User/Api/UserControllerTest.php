@@ -61,7 +61,7 @@ class UserControllerTest extends TestCase
     /**
      * @dataProvider updateProvider
      */
-    public function testUpdate(array $data, int $code)
+    public function testUpdate(array $data, int $code, int $id)
     {
 
         $user = User::where('login', 'login')->first();
@@ -70,7 +70,7 @@ class UserControllerTest extends TestCase
         $controller = (new UserController());
         $request = new Request();
         $request->merge($data);
-        $result = $controller->update($request);
+        $result = $controller->update($request, $id);
         $this->assertEquals($code, $result->getStatusCode());
     }
 
@@ -78,9 +78,9 @@ class UserControllerTest extends TestCase
     static function updateProvider(): array
     {
         return [
-            'меняем мыло' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::SUCCESS)->value],
-            'мыло занято' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::FOUND)->value],
-            'меняю обратно' => [['email' => 'test@example.com', 'login' => 'login'], (HttpStatuses::SUCCESS)->value],
+            'меняем мыло' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::SUCCESS)->value, 10],
+            'мыло занято' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::FOUND)->value, 10],
+            'меняю обратно' => [['email' => 'test@example.com', 'login' => 'login'], (HttpStatuses::SUCCESS)->value, 10],
         ];
     }
 }

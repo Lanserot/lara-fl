@@ -23,10 +23,12 @@ use Tools\HttpStatuses;
 class EditUserCommand extends BaseCommand
 {
     private string $email;
+    private int $id;
 
-    public function __construct(string $email)
+    public function __construct(string $email, int $id)
     {
         $this->email = $email;
+        $this->id = $id;
     }
 
     public function execute(): JsonResponse
@@ -43,14 +45,14 @@ class EditUserCommand extends BaseCommand
         $user_repository = app(IUserRepository::class);
 
         try {
-            $user = $user_repository->getById(Auth::user()->getAuthIdentifier());
+            $user = $user_repository->getById($this->id);
         }catch (\Exception $e) {
             return $this->jsonAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
         }
 
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);
-        $user_array = $user_mapper->entityToArray($user_repository->getById(Auth::user()->getAuthIdentifier()));
+        $user_array = $user_mapper->entityToArray($user);
         $user_array[UserVO::KEY_EMAIL] = $this->email;
         try {
             $user_repository->update($user_array);

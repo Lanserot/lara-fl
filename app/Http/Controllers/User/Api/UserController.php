@@ -25,13 +25,23 @@ class UserController extends Controller
         User::FIELD_EMAIL => 'required|email',
     ];
 
-    public function index()
+    public function indexSwagger()
     {
         return view('vendor/l5-swagger/index', [
             'documentation' => 'default',
             'urlToDocs' => url('/api/documentation/json'),
             'useAbsolutePath' => true
         ]);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        return response()->json(['message' => $id])->setStatusCode((HttpStatuses::SUCCESS)->value);
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        return response()->json(['message' => $id])->setStatusCode((HttpStatuses::SUCCESS)->value);
     }
 
     public function store(Request $request): JsonResponse
@@ -52,7 +62,7 @@ class UserController extends Controller
         )->execute();
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $data = $request->all();
         $validator = Validator::make($data, [User::FIELD_EMAIL => self::USER_RULES[User::FIELD_EMAIL]]);
@@ -60,7 +70,8 @@ class UserController extends Controller
             return $validator;
         }
         return (new EditUserCommand(
-            $data[User::FIELD_EMAIL]
+            $data[User::FIELD_EMAIL],
+            $id
         ))->execute();
     }
 

@@ -11,7 +11,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Get list of users",
+                "summary": "Create user",
                 "description": "Добавления пользователя в бд",
                 "operationId": "createUser",
                 "parameters": [
@@ -66,7 +66,126 @@
                         "description": "Пользователь уже существует"
                     },
                     "200": {
-                        "description": "Успешный пароль"
+                        "description": "Успешно"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "Изменение данных",
+                "operationId": "updateUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "description": "Изменяемый email",
+                                        "type": "string",
+                                        "format": "email",
+                                        "required": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "302": {
+                        "description": "Пользователь уже существует"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user",
+                "description": "Получение данных пользователя из бд",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "302": {
+                        "description": "Пользователь уже существует"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "Удаление пользователя",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "302": {
+                        "description": "Пользователь уже существует"
+                    },
+                    "200": {
+                        "description": "Успешно"
                     }
                 }
             }
