@@ -33,6 +33,7 @@ class UserRepository implements IUserRepository
             $user[userVO::KEY_LOGIN],
             $user[userVO::KEY_EMAIL],
             $user[userVO::KEY_ID],
+            $user[userVO::KEY_ROLE_ID],
         );
     }
 
@@ -61,6 +62,7 @@ class UserRepository implements IUserRepository
             $user->login,
             $user->email,
             $user->id,
+            $user->role_id,
         );
     }
 

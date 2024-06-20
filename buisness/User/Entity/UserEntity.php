@@ -14,13 +14,15 @@ final class UserEntity implements IUserEntity
 {
     private string $login;
     private int $id;
+    private int $role_id;
     private string $email;
 
-    public function __construct(string $login, string $email, int $id)
+    public function __construct(string $login, string $email, int $id, int $role_id)
     {
         $this->login = $login;
         $this->email = $email;
         $this->id = $id;
+        $this->role_id = $role_id;
     }
 
     public function getLogin(): string
@@ -36,5 +38,10 @@ final class UserEntity implements IUserEntity
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getRoleId(): int
+    {
+        return $this->role_id;
     }
 }

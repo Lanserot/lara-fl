@@ -22,6 +22,7 @@ class UserMapper implements IUserMapper
             'login' => $user->getLogin(),
             'email' => $user->getEmail(),
             'password' => '',
+            'role_id' => $user->getRoleId(),
         ];
     }
 
@@ -32,6 +33,7 @@ class UserMapper implements IUserMapper
             (int)$data[UserVO::KEY_PASSWORD] ?? 0,
             $data[UserVO::KEY_EMAIL] ?? '',
             $data[UserVO::KEY_PASSWORD] ?? '',
+                $data[UserVO::KEY_ROLE_ID] ?? 0,
         );
     }
 
@@ -42,6 +44,7 @@ class UserMapper implements IUserMapper
             (int)$data[UserVO::KEY_PASSWORD] ?? 0,
             $data[UserVO::KEY_EMAIL] ?? '',
             Hash::make($data[UserVO::KEY_PASSWORD]) ?? '',
+                $data[UserVO::KEY_ROLE_ID] ?? 0,
         );
     }
 }

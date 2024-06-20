@@ -31,7 +31,7 @@ class RegistrationUserCommand extends BaseCommand
         $this->user_vo = $user_vo;
     }
 
-    public function execute()
+    public function execute(): JsonResponse
     {
         //TODO:вынести app из бизнеса
         $user = User::query()
