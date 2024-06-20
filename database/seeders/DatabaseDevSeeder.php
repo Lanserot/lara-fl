@@ -4,26 +4,26 @@ namespace Database\Seeders;
 
 use App\Enums\RolePermissions;
 use App\Enums\Roles;
+use App\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseDevSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        \App\Models\User\User::factory(9)->create();
+        User::factory(9)->create();
 
-        $user = \App\Models\User\User::factory()->create([
+        $user = User::factory()->create([
             'login' => 'login',
             'email' => 'test@example.com',
-            'role_id' => \Spatie\Permission\Models\Role::findByName(Roles::ADMIN->value),
+            'role_id' => Role::findByName(Roles::ADMIN->value),
             'password' => Hash::make('password'),
         ]);
 
-        $permission = \Spatie\Permission\Models\Permission::findByName(RolePermissions::API->value);
+        $permission = Permission::findByName(RolePermissions::API->value);
         $user->givePermissionTo($permission);
         $user->save();
     }
