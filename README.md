@@ -20,3 +20,6 @@ npm run dev
 
 # Swagger #
 api/documentation/
+
+# Прочее #
+php artisan jwt:secret

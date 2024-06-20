@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Order\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\Order;
+use Buisness\Order\AddOrderCommand;
+use Buisness\Order\ValueObject\OrderVO;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Enums\HttpStatuses;
 
-class OrderController extends Controller{
-
- public function store(Request $request): JsonResponse
+class OrderController extends Controller
+{
+    public function store(Request $request): JsonResponse
     {
         $data = $request->all();
         $validator = Validator::make($data, [
@@ -21,14 +22,18 @@ class OrderController extends Controller{
             'user_id' => 'required|max:50'
         ]);
         $validator = \Infrastructure\Tools\Validator::validateData($validator);
-        if($validator){
+        if ($validator) {
             return $validator;
         }
+
         try {
-            Order::created($data);
+            $command = new AddOrderCommand();
+            $command->setOrderVo(OrderVO::get(
+                ...request(['title', 'description'])
+            ));
+            return $command->execute();
         } catch (Exception $e) {
-            return response()->json(['message' =>$e->getMessage()])->setStatusCode((HttpStatuses::ERROR)->value);
+            return response()->json(['message' => $e->getMessage()])->setStatusCode((HttpStatuses::ERROR)->value);
         }
-        return response()->json()->setStatusCode((HttpStatuses::SUCCESS)->value);
     }
 }
