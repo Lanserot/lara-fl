@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Tools;
 
 use Illuminate\Http\JsonResponse;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 class Validator
 {

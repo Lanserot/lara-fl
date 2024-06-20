@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User\User;
 use Buisness\User\Command\LoginUserCommand;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 class LoginController extends Controller
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Buisness\User\Command;
 
-use App\Models\User;
+use App\Models\User\User;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 /**
  * Class RegistrationUserCommand
