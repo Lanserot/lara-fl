@@ -7,8 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -18,11 +19,14 @@ class User extends Authenticatable
     public const FIELD_EMAIL = 'email';
     public const FIELD_ID = 'id';
 
+    public const FIELD_ROLE_ID = 'role_id';
+
     protected $fillable = [
         self::FIELD_LOGIN,
         self::FIELD_EMAIL,
         self::FIELD_PASSWORD,
         self::FIELD_ID,
+        self::FIELD_ROLE_ID,
     ];
 
     protected $hidden = [
@@ -34,4 +38,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         self::FIELD_PASSWORD => 'hashed',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [];
+    }
 }

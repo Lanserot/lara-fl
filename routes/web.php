@@ -9,8 +9,11 @@ Route::get('/', function () {
 Route::middleware(['not.login'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/login', [\App\Http\Controllers\User\LoginController::class, 'index'])->name('login');
-        Route::get('/login/get', [\App\Http\Controllers\User\LoginController::class, 'get'])->name('login-get');
         Route::get('/registration', [\App\Http\Controllers\User\RegistrationController::class, 'index'])->name('registration');
+
+        Route::post('/login', [\App\Http\Controllers\User\AuthController::class, 'login']);
+        Route::post('/refresh', [\App\Http\Controllers\User\AuthController::class, 'refresh']);
+        Route::post('/me', [\App\Http\Controllers\User\AuthController::class, 'me']);
     });
 });
 

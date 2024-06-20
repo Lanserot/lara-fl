@@ -32,7 +32,7 @@ class LoginUserCommandTest extends TestCase
         $command = (new LoginUserCommand($user_mapper->arrayLoginToVo($data)));
         try {
             $command_result = $command->execute();
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             $this->assertTrue(true);
             return;
         }

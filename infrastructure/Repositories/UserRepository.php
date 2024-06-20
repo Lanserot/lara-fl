@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Repositories;
 
 use App\Models\User\User;
+use App\Models\User\UserInfo;
 use Buisness\User\Entity\NullUserEntity;
 use Buisness\User\Entity\UserEntity;
 use Buisness\User\ValueObject\UserVO;
@@ -92,7 +93,7 @@ class UserRepository implements IUserRepository
 
     public function getUserInfoByUserId(int $user_id): IUserInfoEntity
     {
-        $user_info = User\UserInfo::getByUserIdOrCreate($user_id);
+        $user_info = UserInfo::getByUserIdOrCreate($user_id);
         if (!$user_info) {
             return new NullUserInfoEntity();
         }

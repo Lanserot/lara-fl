@@ -17,8 +17,8 @@
     $(document).ready(function () {
         $('.sub-btn').click(function () {
             $.ajax({
-                url: '<?= route('login-get') ?>',
-                type: 'GET',
+                url: '<?= route('login') ?>',
+                type: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
                     login: $('input[name="login"]').val(),

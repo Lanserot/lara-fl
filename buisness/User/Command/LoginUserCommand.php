@@ -7,16 +7,13 @@ namespace Buisness\User\Command;
 
 
 use Buisness\User\ValueObject\UserVO;
-use Illuminate\Auth\GenericUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Infrastructure\BaseCommand;
-use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
-use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
 use App\Enums\HttpStatuses;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
  * @see \Tests\Unit\buisness\User\Command\LoginUserCommandTest
@@ -48,13 +45,17 @@ final class LoginUserCommand extends BaseCommand
         if (!$user->getId()) {
             return JsonFormatter::makeAnswer((HttpStatuses::NOT_FOUND)->value);
         }
-        /** @var UserMapper $mapper */
-        $mapper = app(IUserMapper::class);
-        Auth::login(new GenericUser($mapper->entityToArray($user)));
-        if (Auth::check()) {
-            return JsonFormatter::makeAnswer((HttpStatuses::SUCCESS)->value);
+
+        $credentials = ['login' => $this->user_vo->getLogin(), 'password' => $this->user_vo->getPassword()];
+
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value);
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60
+        ]);
     }
 }

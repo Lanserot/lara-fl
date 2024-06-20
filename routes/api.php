@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Order\Api\OrderController;
+use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,18 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['is.login'])->group(function () {
-    Route::apiResource('users', \App\Http\Controllers\User\Api\UserController::class)->names(
+    Route::apiResource('users', UserController::class)->names(
         [
-            'store' => 'user.create',
             'update' => 'user.update',
             'show' => 'user.show',
         ]
-    )->only(['store', 'update', 'show']);
+    )->only(['update', 'show']);
 
-    Route::apiResource('orders', \App\Http\Controllers\Order\Api\OrderController::class)->names(
+    Route::apiResource('orders', OrderController::class)->names(
         [
             'store' => 'order.create'
         ]
     )->only(['store']);
 });
 
+Route::middleware(['not.login'])->group(function () {
+    Route::apiResource('users', UserController::class)->names(['store' => 'user.create',])->only(['show']);
+});

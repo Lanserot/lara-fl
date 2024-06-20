@@ -15,7 +15,7 @@
     <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
     </div>
-    <button type="submit" class="btn btn-primary sub-btn">Войти</button>
+    <button class="btn btn-primary sub-btn">Зарегистрироваться</button>
 </div>
 
 <script>

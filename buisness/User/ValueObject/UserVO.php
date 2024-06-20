@@ -75,6 +75,7 @@ class UserVO
             self::KEY_ID => $this->id,
             self::KEY_EMAIL => $this->email,
             self::KEY_PASSWORD => $this->password,
+            self::KEY_ROLE_ID => $this->role_id,
         ];
     }
 
