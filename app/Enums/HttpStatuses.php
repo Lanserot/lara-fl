@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tools;
+namespace App\Enums;
 
 enum HttpStatuses: int
 {

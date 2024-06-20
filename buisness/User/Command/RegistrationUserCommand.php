@@ -16,7 +16,7 @@ use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 /**
  * Class RegistrationUserCommand

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RolePermissions;
+use App\Enums\Roles;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,13 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User\User::factory(9)->create();
 
-        \App\Models\User\User::factory()->create([
-            'login' => 'login',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        \Spatie\Permission\Models\Role::create(['name' => Roles::USER->value]);
+        \Spatie\Permission\Models\Role::create(['name' => Roles::ADMIN->value]);
+        \Spatie\Permission\Models\Permission::create(['name' => RolePermissions::API->value, 'guard_name' => 'web']);
 
         $categories = [
             'programing' => 'Программирование',
@@ -32,5 +30,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        if(env('APP_ENV') == 'local'){
+            $this->call([
+                DatabaseDevSeeder::class,
+            ]);
+        }
     }
 }

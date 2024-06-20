@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 class LoginController extends Controller
 {

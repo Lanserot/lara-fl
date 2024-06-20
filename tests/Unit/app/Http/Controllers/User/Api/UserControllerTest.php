@@ -9,7 +9,7 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
-use Tools\HttpStatuses;
+use App\Enums\HttpStatuses;
 
 /**
  * Class UserControllerTest
