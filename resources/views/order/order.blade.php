@@ -1,20 +1,34 @@
 @include('resources.base.headers')
 <div>
-    <div>
-        <label for="title">Заголовок:</label>
-        <input type="text" id="title" name="title" required>
+    <div class="form-group">
+        <input type="text" class="form-control" name="title" placeholder="Заголовок">
     </div>
     <div>
-        <label for="description">Описание:</label>
-        <input type="text" id="description" name="description" required>
+        <textarea name="description" placeholder="Описание"></textarea>
     </div>
     <button type="submit" class="btn btn-primary sub-btn">Создать</button>
 </div>
 <script>
+    tinymce.init({
+        selector: 'textarea',  // Указывает, на каких textarea будет работать TinyMCE
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        toolbar_mode: 'floating',
+        menu: {
+            file: { title: 'File', items: '' },
+            edit: { title: 'Edit', items: '' },
+            view: { title: 'View', items: '' },
+            format: { title: 'Format', items: 'bold italic underline' },
+            table: { title: 'Table', items: 'inserttable tableprops deletetable row column cell' },
+            tools: { title: 'Tools', items: 'spellchecker' }
+        },
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>
+<script>
     $(document).ready(function () {
-
-            console.log(localStorage.getItem('token'))
         $('.sub-btn').click(function () {
+            tinymce.triggerSave(); // Обновляем значение textarea
             $.ajax({
                 url: '<?= route('order.create') ?>',
                 type: 'POST',
@@ -24,7 +38,7 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     title: $('input[name="title"]').val(),
-                    description: $('input[name="description"]').val()
+                    description: $('textarea[name="description"]').val()
                 },
                 success: function (response) {
                     // location.reload()

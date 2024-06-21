@@ -14,6 +14,7 @@ return new class extends Migration
             $table->text('title')->nullable(false);
             $table->text('description')->nullable(false);
             $table->timestamps();
+            $table->index(['user_id']);
         });
     }
 

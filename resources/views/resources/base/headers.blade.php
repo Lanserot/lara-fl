@@ -1,9 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
     <script src="{{  mix('resources/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{  mix('resources/js/tinymce.min.js') }}"></script>
 
     <!-- Fonts -->
 {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
@@ -29,6 +32,9 @@
             @if (Auth::check())
                 <li class="nav-item active">
                     <a class="nav-link" href="{{route('user.show', Auth::user()->id)}}">{{ Auth::user()->login }}</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('order') }}">Создать</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('logout') }}">Выход</a>

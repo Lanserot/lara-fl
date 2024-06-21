@@ -25,7 +25,7 @@ Route::middleware(['is.login'])->group(function () {
     });
     Route::prefix('site')->group(function () {
         Route::get('about', [\App\Http\Controllers\Site\AboutController::class, 'index']);
-        Route::get('order', [\App\Http\Controllers\Order\OrderController::class, 'index']);
+        Route::get('order', [\App\Http\Controllers\Order\OrderController::class, 'index'])->name('order');
     });
     Route::prefix('api/documentation')->group(function () {
         Route::get('users', [\App\Http\Controllers\Tools\SwaggerController::class, 'users']);
