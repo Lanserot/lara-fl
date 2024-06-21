@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class OrderToCategory extends Model
 {
     use HasFactory;
+    protected $table = 'order_to_category';
+
+    protected $fillable = ['category_id', 'order_id'];
+
 }

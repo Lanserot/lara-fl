@@ -6,10 +6,10 @@ namespace Tests\Unit\app\Http\Controllers\User\Api;
 
 use App\Http\Controllers\User\Api\UserController;
 use App\Models\User\User;
+use Buisness\Enums\HttpStatuses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
-use App\Enums\HttpStatuses;
 
 /**
  * Class UserControllerTest

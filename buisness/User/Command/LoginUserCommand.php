@@ -6,13 +6,13 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 
+use Buisness\Enums\HttpStatuses;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
-use App\Enums\HttpStatuses;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**

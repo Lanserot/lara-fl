@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Buisness\User\Command;
 
-use App\Enums\HttpStatuses;
 use App\Models\User\User;
+use Buisness\Enums\HttpStatuses;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Database\Eloquent\Model;

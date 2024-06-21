@@ -24,7 +24,7 @@ class CanAddOrderCommand extends BaseCommand
             $user_repository->getById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
             'api'
         );
-
+        //TODO: вынести APP
         if(!$role->hasAnyPermission([
             RolePermissions::API->value,
             RolePermissions::API_USER->value

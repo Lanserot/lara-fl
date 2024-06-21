@@ -9,16 +9,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->integer('user_id')->nullable(false);
-            $table->text('title')->nullable(false);
-            $table->text('description')->nullable(false);
-            $table->timestamps();
-            $table->index(['user_id']);
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->text('title')->nullable(false);
+                $table->text('description')->nullable(false);
+                $table->timestamps();
+                $table->index('user_id');
+                $table->foreign('user_id')->references('id')->on('users');
         });
+
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('orders');
     }

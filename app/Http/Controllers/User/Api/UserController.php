@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User\Api;
 
-use App\Enums\HttpStatuses;
 use App\Enums\Roles;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
+use Buisness\Enums\HttpStatuses;
 use Buisness\User\Command\EditUserCommand;
 use Buisness\User\Command\RegistrationUserCommand;
 use Buisness\User\ValueObject\UserVO;

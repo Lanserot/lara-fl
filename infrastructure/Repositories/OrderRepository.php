@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Repositories;
 
 use App\Models\Order\Order;
+use App\Models\Order\OrderToCategory;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Support\Facades\DB;
 use Infrastructure\Interfaces\Order\IOrderRepository;
@@ -21,8 +22,12 @@ class OrderRepository implements IOrderRepository
     {
         DB::beginTransaction();
         try {
-            $user = Order::create(array_merge($order_vo->toArray(), ['user_id' => auth('api')->user()->getAuthIdentifier()]));
-            $this->last_id = $user->id;
+            $order = Order::create(array_merge($order_vo->toArray(), ['user_id' => auth('api')->user()->getAuthIdentifier()]));
+            OrderToCategory::create([
+               'category_id' => $order_vo->getCategoryId(),
+               'order_id' => $order->id
+            ]);
+            $this->last_id = $order->id;
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

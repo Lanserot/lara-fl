@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('users_info', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unique();
+            $table->unsignedBigInteger('user_id')->unique();
             $table->text('name')->nullable();
             $table->tinyText('second_name')->nullable();
             $table->longText('description')->nullable();
             $table->index('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

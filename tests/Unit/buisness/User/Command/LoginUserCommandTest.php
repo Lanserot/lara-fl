@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\buisness\User\Command;
 
-use App\Enums\HttpStatuses;
+use Buisness\Enums\HttpStatuses;
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
 use Infrastructure\Interfaces\User\IUserMapper;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\HttpStatuses;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
+use Buisness\Enums\HttpStatuses;
 use Buisness\User\Command\LoginUserCommand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

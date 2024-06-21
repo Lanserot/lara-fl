@@ -12,32 +12,36 @@ class OrderVO
 {
     private string $title;
     private string $description;
+    private int $category_id;
 
     private function __construct(
         string $title,
         string $description,
+        int $category,
     )
     {
         $this->title = $title;
         $this->description = $description;
+        $this->category_id = $category;
     }
 
     static function get(
         string $title,
         string $description,
+        int $category
     ): OrderVO
     {
-        return new self($title, $description);
+        return new self($title, $description, $category);
     }
 
     static function getNull(): OrderVO
     {
-        return new self('', '');
+        return new self('', '', 0);
     }
 
     public function isNull(): bool
     {
-        return $this->title == '' && $this->description == '';
+        return $this->title == '' && $this->description == '' && $this->category_id == 0;
     }
 
     public function getTitle(): string
@@ -60,5 +64,10 @@ class OrderVO
         }
 
         return $array;
+    }
+
+    public function getCategoryId(): int
+    {
+        return $this->category_id;
     }
 }
