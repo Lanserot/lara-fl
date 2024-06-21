@@ -9,6 +9,8 @@ use Buisness\Order\Security\CanAddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Http\JsonResponse;
 use Infrastructure\BaseCommand;
+use Infrastructure\Interfaces\Order\IOrderRepository;
+use Infrastructure\Repositories\OrderRepository;
 use Infrastructure\Tools\JsonFormatter;
 
 /**
@@ -25,6 +27,12 @@ class AddOrderCommand extends BaseCommand
             return JsonFormatter::makeAnswer((HttpStatuses::ACCESS_DENIED)->value);
         }
 
+        /** @var OrderRepository $order_repository */
+        $order_repository = app(IOrderRepository::class);
+        $result = $order_repository->save($this->order_vo);
+        if($result){
+            return JsonFormatter::makeAnswer((HttpStatuses::SUCCESS)->value);
+        }
         return JsonFormatter::makeAnswer((HttpStatuses::UNKNOWN_ERROR)->value, (HttpStatuses::UNKNOWN_ERROR)->getDescription());
     }
 

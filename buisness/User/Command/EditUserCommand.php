@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Buisness\User\Command;
 
+use App\Enums\HttpStatuses;
 use App\Models\User\User;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Infrastructure\BaseCommand;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Mapper\User\UserMapper;
 use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
-use App\Enums\HttpStatuses;
 
 /**
  * Class EditUserCommand

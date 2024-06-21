@@ -18,8 +18,7 @@ class OrderController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, [
             'title' => 'required|max:50',
-            'description' => 'required|max:500',
-            'user_id' => 'required|max:50'
+            'description' => 'required|max:500'
         ]);
         $validator = \Infrastructure\Tools\Validator::validateData($validator);
         if ($validator) {

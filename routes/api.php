@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['is.login'])->group(function () {
+//Route::middleware(['is.login'])->group(function () {
     Route::apiResource('users', UserController::class)->names(
         [
             'update' => 'user.update',
@@ -28,7 +28,7 @@ Route::middleware(['is.login'])->group(function () {
             'store' => 'order.create'
         ]
     )->only(['store']);
-});
+//});
 
 Route::middleware(['not.login'])->group(function () {
     Route::apiResource('users', UserController::class)->names(['store' => 'user.create',])->only(['show']);

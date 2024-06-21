@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User\Api;
 
+use App\Enums\HttpStatuses;
+use App\Enums\Roles;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use Buisness\User\Command\EditUserCommand;
@@ -10,9 +12,9 @@ use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
-use App\Enums\HttpStatuses;
+use Spatie\Permission\Models\Role;
 
 /**
  * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest
@@ -48,6 +50,7 @@ class UserController extends Controller
         }
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);
+        $data['role_id'] = Role::findByName(Roles::USER->value, 'api')->id;
         return (new RegistrationUserCommand(
             $user_mapper->arrayLoginToVoHash($data))
         )->execute();

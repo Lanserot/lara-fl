@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\buisness\User\Command;
 
+use App\Enums\HttpStatuses;
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
 use Tests\TestCase;
-use App\Enums\HttpStatuses;
 
 /**
  * @package Tests\Unit\buisness\User\Command

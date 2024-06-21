@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Buisness\Order\Security;
 
-use App\Enums\Roles;
+use App\Enums\RolePermissions;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
@@ -20,8 +20,15 @@ class CanAddOrderCommand extends BaseCommand
     {
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
-        $user_entity = $user_repository->getById(auth()->user()->getAuthIdentifier());
-        if($user_entity->getRoleId() != Role::findByName((Roles::USER)->name)){
+        $role = Role::findById(
+            $user_repository->getById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
+            'api'
+        );
+
+        if(!$role->hasAnyPermission([
+            RolePermissions::API->value,
+            RolePermissions::API_USER->value
+        ])){
             return false;
         }
 

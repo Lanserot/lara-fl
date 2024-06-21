@@ -45,17 +45,17 @@ final class LoginUserCommand extends BaseCommand
         if (!$user->getId()) {
             return JsonFormatter::makeAnswer((HttpStatuses::NOT_FOUND)->value);
         }
-
+        // TODO:проверить правильно jwt и логина
         $credentials = ['login' => $this->user_vo->getLogin(), 'password' => $this->user_vo->getPassword()];
-
-        if (! $token = auth()->attempt($credentials)) {
+        $token = JWTAuth::attempt($credentials);
+        auth()->attempt($credentials);
+        if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60
+            'expires_in' => JWTAuth::factory()->getTTL()  * 60 * 60 * 60
         ]);
     }
 }

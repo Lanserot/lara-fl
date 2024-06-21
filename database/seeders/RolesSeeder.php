@@ -12,8 +12,12 @@ class RolesSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::create(['name' => Roles::USER->value]);
-        Role::create(['name' => Roles::ADMIN->value]);
-        Permission::create(['name' => RolePermissions::API->value, 'guard_name' => 'web']);
+        $role_user = Role::create(['name' => Roles::USER->value, 'guard_name' => 'api']);
+        $permission = Permission::create(['name' => RolePermissions::API_USER->value, 'guard_name' => 'api']);
+        $role_user->givePermissionTo($permission);
+
+        $role_user = Role::create(['name' => Roles::ADMIN->value, 'guard_name' => 'api']);
+        $permission = Permission::create(['name' => RolePermissions::API->value, 'guard_name' => 'api']);
+        $role_user->givePermissionTo($permission);
     }
 }

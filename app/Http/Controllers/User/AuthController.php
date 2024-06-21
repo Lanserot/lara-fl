@@ -9,13 +9,13 @@ use Buisness\User\Command\LoginUserCommand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    private const USER_RULES = [
+        private const USER_RULES = [
         User::FIELD_LOGIN => 'required|string|min:4|max:255',
         User::FIELD_PASSWORD => 'required|string|min:5',
     ];
@@ -52,7 +52,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60
-        ]);
+            'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60 * 60
+        ])->setStatusCode((HttpStatuses::SUCCESS)->value);
     }
 }

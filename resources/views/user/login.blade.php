@@ -25,6 +25,7 @@
                     password: $('input[name="password"]').val()
                 },
                 success: function (response) {
+                    localStorage.setItem('token', response.access_token);
                     location.reload()
                 },
                 error: function (response) {

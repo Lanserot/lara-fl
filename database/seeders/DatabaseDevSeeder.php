@@ -19,11 +19,11 @@ class DatabaseDevSeeder extends Seeder
         $user = User::factory()->create([
             'login' => 'login',
             'email' => 'test@example.com',
-            'role_id' => Role::findByName(Roles::ADMIN->value),
+            'role_id' => Role::findByName(Roles::ADMIN->value, 'api'),
             'password' => Hash::make('password'),
         ]);
 
-        $permission = Permission::findByName(RolePermissions::API->value);
+        $permission = Permission::findByName(RolePermissions::API->value, 'api');
         $user->givePermissionTo($permission);
         $user->save();
     }
