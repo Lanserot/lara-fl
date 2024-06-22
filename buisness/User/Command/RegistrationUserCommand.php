@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 use App\Models\User\User;
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Database\Eloquent\Model;
@@ -47,20 +47,20 @@ class RegistrationUserCommand extends BaseCommand
             /** @var UserRepository $user_repository */
             $user_repository = app(IUserRepository::class);
             if(!$user_repository->save($this->user_vo)){
-                return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+                return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }catch (\Exception $e){
             Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $user_entity = $user_repository->getById($user_repository->getLastId());
         /** @var UserMapper $mapper */
         $mapper = app(IUserMapper::class);
         Auth::login(new GenericUser($mapper->entityToArray($user_entity)));
         if (Auth::check()) {
-            return JsonFormatter::makeAnswer(HttpStatuses::SUCCESS->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_OK);
         }
-        return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+        return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     private function returnError(Model $user): JsonResponse
@@ -72,6 +72,6 @@ class RegistrationUserCommand extends BaseCommand
         if ($user->email == $this->user_vo->getEmail()) {
             $message = 'Email exist';
         }
-        return JsonFormatter::makeAnswer((HttpStatuses::FOUND)->value, $message);
+        return JsonFormatter::makeAnswer(Response::HTTP_FOUND, $message);
     }
 }

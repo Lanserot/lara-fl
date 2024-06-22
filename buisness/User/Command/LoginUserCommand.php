@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -42,10 +42,10 @@ final class LoginUserCommand extends BaseCommand
             $user = $rep->getByLogin($this->user_vo);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         if (!$user->getId()) {
-            return JsonFormatter::makeAnswer((HttpStatuses::NOT_FOUND)->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_NOT_FOUND);
         }
         // TODO:проверить правильно jwt и логина
         $credentials = ['login' => $this->user_vo->getLogin(), 'password' => $this->user_vo->getPassword()];

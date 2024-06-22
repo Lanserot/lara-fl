@@ -1,0 +1,91 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API Documentation",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/protected": {
+            "get": {
+                "summary": "Protected route",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create order",
+                "description": "Добавления заявки в бд",
+                "operationId": "createOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "description": "Заголовок заявки",
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "description": {
+                                        "description": "Описание заявки",
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "category": {
+                                        "description": "ID категории",
+                                        "type": "integer",
+                                        "format": "integer"
+                                    }
+                                },
+                                "required": ["title", "description", "category_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}

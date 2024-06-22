@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\buisness\User\Command;
 
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
-use Illuminate\Support\Facades\Log;
 use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
 use Tests\TestCase;
@@ -48,21 +47,21 @@ class LoginUserCommandTest extends TestCase
                     UserVO::KEY_LOGIN => 'login',
                     UserVO::KEY_PASSWORD => 'password'
                 ],
-                HttpStatuses::SUCCESS->value
+                Response::HTTP_OK
             ],
             'Кривой логин или пароль' => [
                 [
                     UserVO::KEY_LOGIN => 'logint',
                     UserVO::KEY_PASSWORD => 'qwerty',
                 ],
-                (HttpStatuses::NOT_FOUND)->value
+                Response::HTTP_NOT_FOUND
             ],
             'Пустые данные' => [
                 [
                     UserVO::KEY_LOGIN => '',
                     UserVO::KEY_PASSWORD => '',
                 ],
-                (HttpStatuses::BAD_REQUEST)->value
+                Response::HTTP_BAD_REQUEST
             ],
         ];
     }

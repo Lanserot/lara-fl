@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User\Api;
 use App\Enums\Roles;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\Command\EditUserCommand;
 use Buisness\User\Command\RegistrationUserCommand;
 use Buisness\User\ValueObject\UserVO;
@@ -29,12 +29,12 @@ class UserController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        return response()->json(['message' => $id])->setStatusCode(HttpStatuses::SUCCESS->value);
+        return response()->json(['message' => $id])->setStatusCode(Response::HTTP_OK);
     }
 
     public function destroy(int $id): JsonResponse
     {
-        return response()->json(['message' => $id])->setStatusCode(HttpStatuses::SUCCESS->value);
+        return response()->json(['message' => $id])->setStatusCode(Response::HTTP_OK);
     }
 
     public function store(Request $request): JsonResponse
@@ -46,7 +46,7 @@ class UserController extends Controller
             return $validator;
         }
         if($data[UserVO::KEY_PASSWORD] != $data['password_repeat']){
-            return response()->json(['message' => 'Diff password'])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+            return response()->json(['message' => 'Diff password'])->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);

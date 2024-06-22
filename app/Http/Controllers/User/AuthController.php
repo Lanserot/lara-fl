@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\Command\LoginUserCommand;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class AuthController extends Controller
         $data = $request->all();
         $validator = Validator::make($data, self::USER_RULES);
         if ($validator->fails()) {
-            return response()->json()->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+            return response()->json()->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);
@@ -53,6 +53,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60 * 60
-        ])->setStatusCode(HttpStatuses::SUCCESS->value);
+        ])->setStatusCode(Response::HTTP_OK);
     }
 }

@@ -29,8 +29,12 @@ Route::middleware(['is.login'])->group(function () {
     });
     Route::prefix('api/documentation')->group(function () {
         Route::get('users', [\App\Http\Controllers\Tools\SwaggerController::class, 'users']);
-        Route::get('json', function () {
-            return response()->file(storage_path('api-docs/api-docs.json'));
+        Route::get('orders', [\App\Http\Controllers\Tools\SwaggerController::class, 'orders']);
+        Route::get('json/users', function () {
+            return response()->file(storage_path('api-docs/api-users-docs.json'));
+        });
+        Route::get('json/orders', function () {
+            return response()->file(storage_path('api-docs/api-orders-docs.json'));
         });
     });
 

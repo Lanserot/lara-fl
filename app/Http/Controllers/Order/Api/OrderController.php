@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Order\Api;
 
 use App\Http\Controllers\Controller;
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\AddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
 use Exception;
@@ -33,7 +33,7 @@ class OrderController extends Controller
             ));
             return $command->execute();
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()])->setStatusCode(HttpStatuses::ERROR->value);
+            return response()->json(['message' => $e->getMessage()])->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

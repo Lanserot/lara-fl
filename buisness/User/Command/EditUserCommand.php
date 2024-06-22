@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Buisness\User\Command;
 
 use App\Models\User\User;
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -39,10 +39,10 @@ class EditUserCommand extends BaseCommand
             $user = DB::table('users')->where(User::FIELD_EMAIL, $this->email)->first();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         if ($user) {
-            return JsonFormatter::makeAnswer(HttpStatuses::FOUND->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND);
         }
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
@@ -51,7 +51,7 @@ class EditUserCommand extends BaseCommand
             $user = $user_repository->getById($this->id);
         }catch (\Exception $e) {
             Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         /** @var UserMapper $user_mapper */
@@ -62,8 +62,8 @@ class EditUserCommand extends BaseCommand
             $user_repository->update($user_array);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return JsonFormatter::makeAnswer(HttpStatuses::SUCCESS->value);
+        return JsonFormatter::makeAnswer(Response::HTTP_OK);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Buisness\Order;
 
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\Security\CanAddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Http\JsonResponse;
@@ -25,20 +25,20 @@ class AddOrderCommand extends BaseCommand
     public function execute(): JsonResponse
     {
         if (!(new CanAddOrderCommand())->execute()) {
-            return JsonFormatter::makeAnswer((HttpStatuses::ACCESS_DENIED)->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_FORBIDDEN);
         }
 
         if (!DB::table('categories')->where('id', '=', $this->order_vo->getCategoryId())->exists()) {
-            return JsonFormatter::makeAnswer((HttpStatuses::NOT_FOUND)->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_NOT_FOUND);
         }
 
         /** @var OrderRepository $order_repository */
         $order_repository = app(IOrderRepository::class);
         $result = $order_repository->save($this->order_vo);
         if ($result) {
-            return JsonFormatter::makeAnswer(HttpStatuses::SUCCESS->value);
+            return JsonFormatter::makeAnswer(Response::HTTP_OK);
         }
-        return JsonFormatter::makeAnswer((HttpStatuses::UNKNOWN_ERROR)->value, (HttpStatuses::UNKNOWN_ERROR)->getDescription());
+        return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function setOrderVo(OrderVO $order_vo): void

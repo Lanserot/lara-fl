@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\Tools;
 
-use Buisness\Enums\HttpStatuses;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 
 class Validator
@@ -17,7 +17,7 @@ class Validator
             foreach ($errors->all() as $error) {
                 $message .= $error . ".";
             }
-            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+            return response()->json(['message' => $message])->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
 
         return null;
