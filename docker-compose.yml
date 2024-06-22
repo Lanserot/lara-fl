@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - 80:80
+        volumes:
+            - './:/var/www/html'
+            - './docker/nginx/conf.d:/etc/nginx/conf.d'
+        networks:
+            - fl-up
+    php:
+        build:
+            context: ./docker/php
+        volumes:
+            - './:/var/www/html'
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            - fl-up
+
+    mysql:
+        image: mysql:8
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=laravel
+        volumes:
+            - './docker/volume/mysql:/var/lib/mysql'
+        networks:
+            - fl-up
+        ports:
+            - "3306:3306"
+
+    composer:
+        build:
+            context: ./docker/composer
+        volumes:
+            - './:/var/www/html'
+        networks:
+            - fl-up
+#    phpmyadmin:
+#        build:
+#            context: ./docker/phpMyAdmin
+#        environment:
+#            PMA_ARBITRARY: 1
+#            PMA_HOST: db
+#            PMA_USER: myuser
+#            PMA_PASSWORD: mypassword
+#        depends_on:
+#            - mysql
+#        networks:
+#            - lara
+#
+#networks:
+#    lara:
+
+#    php:
+#        build: .
+#        volumes:
+#            - .:/var/www/html
+#        ports:
+#            - "9000:9000"
+#        entrypoint: ["/entrypoint.sh"]
+#        depends_on:
+#            - db
+#        networks:
+#            - fl-up
+#
+#    nginx:
+#        image: nginx:latest
+#        ports:
+#            - "80:80"
+#        volumes:
+#            - .:/var/www/html
+#            - ./nginx-conf:/etc/nginx/conf.d
+#        depends_on:
+#            - php
+#        networks:
+#            - mynetwork
+#
+#    db:
+#        image: mysql:8.0
+#        volumes:
+#            - db_data:/var/lib/mysql
+#        environment:
+#            MYSQL_ROOT_PASSWORD: example
+#            MYSQL_DATABASE: mydatabase
+#            MYSQL_USER: myuser
+#            MYSQL_PASSWORD: mypassword
+#        networks:
+#            - mynetwork
+#
+#    phpmyadmin:
+#        image: phpmyadmin/phpmyadmin
+#        environment:
+#            PMA_ARBITRARY: 1
+#            PMA_HOST: db
+#            PMA_USER: myuser
+#            PMA_PASSWORD: mypassword
+#        depends_on:
+#            - db
+#        networks:
+#            - mynetwork
+#
+#volumes:
+#    db_data:
+#    nginx-conf:
+#
+networks:
+    fl-up:
