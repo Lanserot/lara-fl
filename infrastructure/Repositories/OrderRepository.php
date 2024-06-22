@@ -8,6 +8,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderToCategory;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Infrastructure\Interfaces\Order\IOrderRepository;
 
 /**
@@ -30,6 +31,7 @@ class OrderRepository implements IOrderRepository
             $this->last_id = $order->id;
             DB::commit();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollback();
             return false;
         }

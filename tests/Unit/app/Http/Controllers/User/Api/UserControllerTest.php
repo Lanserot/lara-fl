@@ -78,9 +78,9 @@ class UserControllerTest extends TestCase
     static function updateProvider(): array
     {
         return [
-            'меняем мыло' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::SUCCESS)->value, 10],
+            'меняем мыло' => [['email' => 'test12@mail.ru', 'login' => 'login'], HttpStatuses::SUCCESS->value, 10],
             'мыло занято' => [['email' => 'test12@mail.ru', 'login' => 'login'], (HttpStatuses::FOUND)->value, 10],
-            'меняю обратно' => [['email' => 'test@example.com', 'login' => 'login'], (HttpStatuses::SUCCESS)->value, 10],
+            'меняю обратно' => [['email' => 'test@example.com', 'login' => 'login'], HttpStatuses::SUCCESS->value, 10],
         ];
     }
 }

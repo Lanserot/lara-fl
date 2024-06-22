@@ -13,6 +13,7 @@ use Buisness\UserInfo\Entity\NullUserInfoEntity;
 use Buisness\UserInfo\Entity\UserInfoEntity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Infrastructure\Interfaces\User\IUserEntity;
 use Infrastructure\Interfaces\User\IUserInfoEntity;
 use Infrastructure\Interfaces\User\IUserRepository;
@@ -46,6 +47,7 @@ class UserRepository implements IUserRepository
             $this->last_id = $user->id;
             DB::commit();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollback();
             return false;
         }
@@ -84,6 +86,7 @@ class UserRepository implements IUserRepository
             $user_new->save();
             DB::commit();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             DB::rollback();
             return false;
         }

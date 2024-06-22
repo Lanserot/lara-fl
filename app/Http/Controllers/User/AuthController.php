@@ -53,6 +53,6 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => JWTAuth::factory()->getTTL() * 60 * 60 * 60
-        ])->setStatusCode((HttpStatuses::SUCCESS)->value);
+        ])->setStatusCode(HttpStatuses::SUCCESS->value);
     }
 }

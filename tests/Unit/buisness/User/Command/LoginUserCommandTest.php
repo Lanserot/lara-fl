@@ -7,6 +7,7 @@ namespace Tests\Unit\buisness\User\Command;
 use Buisness\Enums\HttpStatuses;
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
+use Illuminate\Support\Facades\Log;
 use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
 use Tests\TestCase;
@@ -47,7 +48,7 @@ class LoginUserCommandTest extends TestCase
                     UserVO::KEY_LOGIN => 'login',
                     UserVO::KEY_PASSWORD => 'password'
                 ],
-                (HttpStatuses::SUCCESS)->value
+                HttpStatuses::SUCCESS->value
             ],
             'Кривой логин или пароль' => [
                 [

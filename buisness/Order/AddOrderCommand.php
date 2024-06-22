@@ -36,7 +36,7 @@ class AddOrderCommand extends BaseCommand
         $order_repository = app(IOrderRepository::class);
         $result = $order_repository->save($this->order_vo);
         if ($result) {
-            return JsonFormatter::makeAnswer((HttpStatuses::SUCCESS)->value);
+            return JsonFormatter::makeAnswer(HttpStatuses::SUCCESS->value);
         }
         return JsonFormatter::makeAnswer((HttpStatuses::UNKNOWN_ERROR)->value, (HttpStatuses::UNKNOWN_ERROR)->getDescription());
     }

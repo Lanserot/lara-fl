@@ -33,7 +33,7 @@ class OrderController extends Controller
             ));
             return $command->execute();
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage()])->setStatusCode((HttpStatuses::ERROR)->value);
+            return response()->json(['message' => $e->getMessage()])->setStatusCode(HttpStatuses::ERROR->value);
         }
     }
 }

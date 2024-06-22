@@ -29,12 +29,12 @@ class UserController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        return response()->json(['message' => $id])->setStatusCode((HttpStatuses::SUCCESS)->value);
+        return response()->json(['message' => $id])->setStatusCode(HttpStatuses::SUCCESS->value);
     }
 
     public function destroy(int $id): JsonResponse
     {
-        return response()->json(['message' => $id])->setStatusCode((HttpStatuses::SUCCESS)->value);
+        return response()->json(['message' => $id])->setStatusCode(HttpStatuses::SUCCESS->value);
     }
 
     public function store(Request $request): JsonResponse

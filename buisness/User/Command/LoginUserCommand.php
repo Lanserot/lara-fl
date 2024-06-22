@@ -9,6 +9,7 @@ namespace Buisness\User\Command;
 use Buisness\Enums\HttpStatuses;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
@@ -40,7 +41,8 @@ final class LoginUserCommand extends BaseCommand
             $rep = app(IUserRepository::class);
             $user = $rep->getByLogin($this->user_vo);
         } catch (\Exception $e) {
-            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value);
+            Log::error($e->getMessage());
+            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
         }
         if (!$user->getId()) {
             return JsonFormatter::makeAnswer((HttpStatuses::NOT_FOUND)->value);

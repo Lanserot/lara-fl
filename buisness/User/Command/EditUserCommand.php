@@ -9,6 +9,7 @@ use Buisness\Enums\HttpStatuses;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
@@ -37,10 +38,11 @@ class EditUserCommand extends BaseCommand
             //TODO: вынести APP
             $user = DB::table('users')->where(User::FIELD_EMAIL, $this->email)->first();
         } catch (\Exception $e) {
-            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            Log::error($e->getMessage());
+            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
         }
         if ($user) {
-            return JsonFormatter::makeAnswer((HttpStatuses::FOUND)->value);
+            return JsonFormatter::makeAnswer(HttpStatuses::FOUND->value);
         }
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
@@ -48,7 +50,8 @@ class EditUserCommand extends BaseCommand
         try {
             $user = $user_repository->getById($this->id);
         }catch (\Exception $e) {
-            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            Log::error($e->getMessage());
+            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
         }
 
         /** @var UserMapper $user_mapper */
@@ -58,8 +61,9 @@ class EditUserCommand extends BaseCommand
         try {
             $user_repository->update($user_array);
         } catch (\Exception $e) {
-            return JsonFormatter::makeAnswer((HttpStatuses::ERROR)->value, $e->getMessage());
+            Log::error($e->getMessage());
+            return JsonFormatter::makeAnswer(HttpStatuses::ERROR->value);
         }
-        return JsonFormatter::makeAnswer((HttpStatuses::SUCCESS)->value);
+        return JsonFormatter::makeAnswer(HttpStatuses::SUCCESS->value);
     }
 }
