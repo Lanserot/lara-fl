@@ -5,7 +5,34 @@
         "description": "API Documentation",
         "version": "1.0.0"
     },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
     "paths": {
+        "/protected": {
+            "get": {
+                "summary": "Protected route",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "post": {
                 "tags": [
@@ -68,7 +95,12 @@
                     "200": {
                         "description": "Успешно"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         },
         "/api/users/{id}": {
@@ -121,7 +153,12 @@
                     "200": {
                         "description": "Успешно"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "get": {
                 "tags": [
@@ -154,7 +191,12 @@
                     "200": {
                         "description": "Успешно"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -187,7 +229,12 @@
                     "200": {
                         "description": "Успешно"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
             }
         }
     }
