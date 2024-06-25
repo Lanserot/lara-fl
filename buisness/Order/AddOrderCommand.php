@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Buisness\Order;
 
-use Symfony\Component\HttpFoundation\Response;
-use Buisness\Order\Security\CanAddOrderCommand;
+use Buisness\File\Security\CanAddFileCommand;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,7 @@ use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\Order\IOrderRepository;
 use Infrastructure\Repositories\OrderRepository;
 use Infrastructure\Tools\JsonFormatter;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class addOrderCommand
@@ -24,7 +24,7 @@ class AddOrderCommand extends BaseCommand
 
     public function execute(): JsonResponse
     {
-        if (!(new CanAddOrderCommand())->execute()) {
+        if (!(new CanAddFileCommand())->execute()) {
             return JsonFormatter::makeAnswer(Response::HTTP_FORBIDDEN);
         }
 

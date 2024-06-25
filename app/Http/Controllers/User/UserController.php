@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\FileStorage;
 use Buisness\User\Entity\NullUserEntity;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -28,7 +29,11 @@ class UserController extends Controller
             throw new Exception('Что-то не так');
         }
         $user_info = $rep->getUserInfoByUserId($user->getId());
-        return view('user/show', ['user' => $user, 'user_info' => $user_info]);
+        $file_path = FileStorage::query()
+            ->where(FileStorage::FIELD_GROUP, '=', 1)
+            ->where(FileStorage::FIELD_USER_ID, '=', $id)
+            ->first();
+        return view('user/show', ['user' => $user, 'user_info' => $user_info, 'file_path' => $file_path]);
     }
 
     public function edit(int $id): \Illuminate\Foundation\Application|View|Factory|Redirector|Application|RedirectResponse

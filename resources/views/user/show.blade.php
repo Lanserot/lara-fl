@@ -4,6 +4,9 @@
 /** @var \Infrastructure\Interfaces\User\IUserInfoEntity $user_info */
 ?>
 <div>
+    @if($file_path)
+        <img src="/public/{{$file_path->path}}/{{$file_path->name}}" alt="" style="max-height: 200px;">
+    @endif
     <p>Ваш логин : {{$user->getLogin()}}</p>
     <p>Ваш email : {{$user->getEmail()}}</p>
     <a href="{{route('user.edit', $user->getId())}}">

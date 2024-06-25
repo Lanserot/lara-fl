@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Files\FileUploadController;
 use App\Http\Controllers\Order\Api\OrderController;
 use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,11 @@ Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('orders', OrderController::class)->names(
         [
             'store' => 'order.create'
+        ]
+    )->only(['store']);
+    Route::apiResource('files', FileUploadController::class)->names(
+        [
+            'store' => 'file.upload'
         ]
     )->only(['store']);
 });
