@@ -15,24 +15,6 @@
         }
     },
     "paths": {
-        "/protected": {
-            "get": {
-                "summary": "Protected route",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/orders": {
             "post": {
                 "tags": [

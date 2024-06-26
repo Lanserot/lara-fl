@@ -15,24 +15,6 @@
         }
     },
     "paths": {
-        "/protected": {
-            "get": {
-                "summary": "Protected route",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/users": {
             "post": {
                 "tags": [
@@ -228,6 +210,69 @@
                     },
                     "200": {
                         "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/upload": {
+            "post": {
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Save file",
+                "description": "Добавления картинки на сервер",
+                "operationId": "createFile",
+                "requestBody": {
+                    "description": "File to upload",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "403": {
+                        "description": "Недостаточно прав"
+                    },
+                    "413": {
+                        "description": "Размер файла превышиет допустимый"
+                    },
+                    "415": {
+                        "description": "Формат файла не подходит"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    },
+                    "500": {
+                        "description": "Ошибка"
                     }
                 },
                 "security": [
