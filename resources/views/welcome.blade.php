@@ -1,49 +1,14 @@
 @include('resources.base.headers')
 
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        <!-- Card 1 -->
-        <div class="carousel-item active">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card Title 1</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+    @foreach($categories as $category)
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">{{$category['name_rus']}}</h5>
+                <a href="{{route('order.category', $category['name'])}}" class="btn btn-primary">Подробнее...</a>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="carousel-item">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card Title 2</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="carousel-item">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card Title 3</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-
+    @endforeach
 </div>
 
 @include('resources.base.footer')
