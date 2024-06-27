@@ -39,6 +39,23 @@ class OrderRepository implements IOrderRepository
         return true;
     }
 
+    public function getById(int $id): array
+    {
+        $order = Order::query()
+            ->select('orders.*',
+                'categories.name as category_name',
+                'categories.name_rus as category_name_rus')
+            ->join('order_to_category', 'order_to_category.order_id', '=', 'orders.id')
+            ->join('categories', 'categories.id', '=', 'order_to_category.category_id')
+            ->where('order_id', '=', $id)
+            ->first();
+        if (is_null($order)) {
+            return [];
+        }
+
+        return $order->toArray();
+    }
+
     public function getLastId(): int
     {
         return $this->last_id;

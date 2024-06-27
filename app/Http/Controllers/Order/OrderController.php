@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Category\Category;
 use App\Models\Order\Order;
+use Buisness\Order\GetOrderCommand;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
-    public function list()
+    public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         //TODO: вынести в комманду
         $orders = Order::query()
@@ -23,7 +26,7 @@ class OrderController extends Controller
         return view('order.list', ['orders' => $orders]);
     }
 
-    public function category(string $category)
+    public function category(string $category): View|\Illuminate\Foundation\Application|Factory|Application
     {
         //TODO: вынести в комманду
         $orders_ids = Category::query()
@@ -40,6 +43,15 @@ class OrderController extends Controller
     public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $categories = Category::all();
-        return view("order/order", ['categories' => $categories]);
+        return view("order/create", ['categories' => $categories]);
+    }
+
+    public function show(int $id): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
+    {
+        $order = (new GetOrderCommand())->setOrderId($id)->execute();
+        if($order->getStatusCode() == Response::HTTP_OK){
+            return view("order/show", ['order' => json_decode($order->getData()->message, true)]);
+        }
+        return redirect()->route('main');
     }
 }

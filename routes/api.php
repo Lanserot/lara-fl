@@ -5,6 +5,11 @@ use App\Http\Controllers\Order\Api\OrderController;
 use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
+//'index' => 'posts.list',
+//'store' => 'posts.create',
+//'show' => 'posts.view',
+//'update' => 'posts.edit',
+//'destroy' => 'posts.delete'
 Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('users', UserController::class)->names(
         [
@@ -14,9 +19,10 @@ Route::middleware('jwt.auth')->group(function () {
     )->only(['update', 'show']);
     Route::apiResource('orders', OrderController::class)->names(
         [
-            'store' => 'order.create'
+            'store' => 'order.create',
+            'show' => 'order.view',
         ]
-    )->only(['store']);
+    )->only(['store', 'show']);
     Route::apiResource('files', FileUploadController::class)->names(
         [
             'store' => 'file.upload'

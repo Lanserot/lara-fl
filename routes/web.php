@@ -48,4 +48,5 @@ Route::middleware(['is.login'])->group(function () {
 
 Route::get('/order/list', [OrderController::class, 'list'])->name('order.list');
 Route::get('/order/category/{category}', [OrderController::class, 'category'])->name('order.category');
+Route::get('/order/show/{id}', [OrderController::class, 'show'])->name('order.show');
 

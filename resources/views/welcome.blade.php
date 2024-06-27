@@ -1,5 +1,5 @@
 @include('resources.base.headers')
-
+{{--@dd(\Tymon\JWTAuth\Facades\JWTAuth::fromUser(auth()->user()))--}}
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     @foreach($categories as $category)
         <div class="card mt-3">
