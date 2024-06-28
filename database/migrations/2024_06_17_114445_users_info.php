@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('users_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->text('name')->nullable();
-            $table->tinyText('second_name')->nullable();
-            $table->longText('description')->nullable();
+            $table->string('name')->nullable();
+            $table->string('second_name')->nullable();
+            $table->mediumText('description')->nullable();
             $table->index('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

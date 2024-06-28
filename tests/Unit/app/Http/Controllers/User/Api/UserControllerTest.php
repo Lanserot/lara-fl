@@ -33,6 +33,7 @@ class UserControllerTest extends TestCase
 
     static function storeProvider(): array
     {
+        //TODO:сделать заглушку для бд, на создание нового пользователя
         return [
             'Не хватает пароля' => [['login' => 'login'], Response::HTTP_BAD_REQUEST],
             'Не хватает мыла' => [['email' => 'email'], Response::HTTP_BAD_REQUEST],

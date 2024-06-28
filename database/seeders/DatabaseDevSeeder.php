@@ -26,5 +26,10 @@ class DatabaseDevSeeder extends Seeder
         $permission = Permission::findByName(RolePermissions::API->value, 'api');
         $user->givePermissionTo($permission);
         $user->save();
+
+        $this->call([
+            OrderSeeder::class,
+        ]);
     }
+
 }

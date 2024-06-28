@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RolePermissions;
-use App\Enums\Roles;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

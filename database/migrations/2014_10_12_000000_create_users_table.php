@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('role_id');
             $table->rememberToken();
             $table->timestamps();
+            $table->index('login');
+            $table->index('email');
         });
     }
 

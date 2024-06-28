@@ -7,21 +7,12 @@ use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-    private array $categories = [
-        'programming' => 'Программирование',
-        '3d' => '3д',
-        'websites' => 'Сайты',
-        'games' => 'Игры',
-        'design' => 'Дизайн',
-        'texts' => 'Тексты',
-    ];
-
     public function run(): void
     {
-        foreach ($this->categories as $name => $name_rus) {
+        foreach (\App\Enums\Category::cases() as $case) {
             Category::create([
-                'name' => $name,
-                'name_rus' => $name_rus,
+                'name' => $case->value,
+                'name_rus' => $case->getNameRus(),
             ]);
         }
     }

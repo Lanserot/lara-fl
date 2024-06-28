@@ -28,11 +28,12 @@ class OrderController extends Controller
         }
 
         try {
-            $command = new AddOrderCommand();
-            $command->setOrderVo(OrderVO::get(
-                ...request(['title', 'description', 'category'])
-            ));
-            return $command->execute();
+            return (new AddOrderCommand())
+                ->setOrderVo(OrderVO::get(
+                    ...request(['title', 'description'])
+                ))
+                ->setCategoryId($request->get('category'))
+                ->execute();
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()])->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
