@@ -87,6 +87,7 @@ class UserRepository implements IUserRepository
             DB::commit();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            $user_old->save();
             DB::rollback();
             return false;
         }
