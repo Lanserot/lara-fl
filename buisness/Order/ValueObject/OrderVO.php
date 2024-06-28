@@ -49,16 +49,4 @@ class OrderVO
     {
         return $this->description;
     }
-
-    public function toArray(): array
-    {
-        $reflection = new \ReflectionClass($this);
-        $properties = $reflection->getProperties();
-        $array = [];
-        foreach ($properties as $property) {
-            $array[$property->getName()] = $property->getValue($this);
-        }
-
-        return $array;
-    }
 }

@@ -6,15 +6,11 @@ namespace Buisness\User\Command;
 
 use App\Models\User\User;
 use Symfony\Component\HttpFoundation\Response;
-use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Infrastructure\BaseCommand;
-use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
-use Infrastructure\Mapper\User\UserMapper;
-use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
 
 /**
@@ -26,40 +22,35 @@ class EditUserCommand extends BaseCommand
     private string $email;
     private int $id;
 
+    private IUserRepository $user_repository;
+
     public function __construct(string $email, int $id)
     {
+        $this->user_repository = app(IUserRepository::class);
         $this->email = $email;
         $this->id = $id;
     }
 
     public function execute(): JsonResponse
     {
-        try {
-            //TODO: вынести APP
-            $user = DB::table('users')->where(User::FIELD_EMAIL, $this->email)->first();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
+        if (!$this->user_repository->isExistFieldValue(User::FIELD_ID, $this->id)) {
+            return JsonFormatter::makeAnswer(Response::HTTP_NOT_FOUND);
         }
-        if ($user) {
-            return JsonFormatter::makeAnswer(Response::HTTP_FOUND);
+        if ($this->user_repository->isExistFieldValue(User::FIELD_EMAIL, $this->email)) {
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, User::FIELD_EMAIL);
         }
-        /** @var UserRepository $user_repository */
-        $user_repository = app(IUserRepository::class);
 
         try {
-            $user = $user_repository->getById($this->id);
+            $user = $this->user_repository->getModelById($this->id);
         }catch (\Exception $e) {
             Log::error($e->getMessage());
             return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        /** @var UserMapper $user_mapper */
-        $user_mapper = app(IUserMapper::class);
-        $user_array = $user_mapper->entityToArray($user);
-        $user_array[UserVO::KEY_EMAIL] = $this->email;
+        $user->email = $this->email;
+
         try {
-            $user_repository->update($user_array);
+            $this->user_repository->update($user);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);

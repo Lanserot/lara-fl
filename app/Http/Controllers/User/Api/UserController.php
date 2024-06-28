@@ -40,8 +40,7 @@ class UserController extends Controller
     public function store(Request $request): JsonResponse
     {
         $data = $request->all();
-        $validator = Validator::make($data, self::USER_RULES);
-        $validator = \Infrastructure\Tools\Validator::validateData($validator);
+        $validator = \Infrastructure\Tools\Validator::validateData(Validator::make($data, self::USER_RULES));
         if($validator){
             return $validator;
         }

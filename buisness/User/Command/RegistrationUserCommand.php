@@ -8,15 +8,12 @@ use App\Models\User\User;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Infrastructure\BaseCommand;
 use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Mapper\User\UserMapper;
-use Infrastructure\Repositories\UserRepository;
 use Infrastructure\Tools\JsonFormatter;
 
 /**
@@ -25,53 +22,39 @@ use Infrastructure\Tools\JsonFormatter;
  */
 class RegistrationUserCommand extends BaseCommand
 {
+    private IUserRepository $user_repository;
+
     private UserVO $user_vo;
 
     public function __construct(UserVO $user_vo)
     {
+        $this->user_repository = app(IUserRepository::class);
         $this->user_vo = $user_vo;
     }
 
     public function execute(): JsonResponse
     {
         //TODO:вынести app из бизнеса
-        $user = User::query()
-            ->select([UserVO::KEY_LOGIN, UserVO::KEY_EMAIL])
-            ->where(User::FIELD_LOGIN, '=', $this->user_vo->getLogin())
-            ->orWhere(User::FIELD_EMAIL, '=', $this->user_vo->getEmail())
-            ->first();
-        if ($user) {
-            return $this->returnError($user);
+        if ($this->user_repository->isExistFieldValue(User::FIELD_LOGIN, $this->user_vo->getLogin())) {
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, User::FIELD_LOGIN);
         }
-        try {
-            /** @var UserRepository $user_repository */
-            $user_repository = app(IUserRepository::class);
-            if(!$user_repository->save($this->user_vo)){
-                return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-        }catch (\Exception $e){
-            Log::error($e->getMessage());
+        if ($this->user_repository->isExistFieldValue(User::FIELD_EMAIL, $this->user_vo->getEmail())) {
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, User::FIELD_EMAIL);
+        }
+
+        if(!$this->user_repository->save($this->user_vo)){
             return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        $user_entity = $user_repository->getById($user_repository->getLastId());
+
+        $user_entity = $this->user_repository->getEntityById($this->user_repository->getLastId());
         /** @var UserMapper $mapper */
         $mapper = app(IUserMapper::class);
+
         Auth::login(new GenericUser($mapper->entityToArray($user_entity)));
         if (Auth::check()) {
             return JsonFormatter::makeAnswer(Response::HTTP_OK);
         }
-        return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
 
-    private function returnError(Model $user): JsonResponse
-    {
-        $message = '';
-        if ($user->login == $this->user_vo->getLogin()) {
-            $message = 'login exist';
-        }
-        if ($user->email == $this->user_vo->getEmail()) {
-            $message = 'Email exist';
-        }
-        return JsonFormatter::makeAnswer(Response::HTTP_FOUND, $message);
+        return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

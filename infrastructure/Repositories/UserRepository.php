@@ -11,15 +11,24 @@ use Buisness\User\Entity\UserEntity;
 use Buisness\User\ValueObject\UserVO;
 use Buisness\UserInfo\Entity\NullUserInfoEntity;
 use Buisness\UserInfo\Entity\UserInfoEntity;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Infrastructure\Interfaces\User\IUserEntity;
 use Infrastructure\Interfaces\User\IUserInfoEntity;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Interfaces\User\IUserRepository;
 
 class UserRepository implements IUserRepository
 {
+    private IUserMapper $user_mapper;
+
+    public function __construct(IUserMapper $user_mapper)
+    {
+        $this->user_mapper = $user_mapper;
+    }
+
     private int $last_id = 0;
 
     public function getByLogin(UserVO $user_vo): IUserEntity
@@ -43,7 +52,7 @@ class UserRepository implements IUserRepository
     {
         DB::beginTransaction();
         try {
-            $user = User::create($user->toArray());
+            $user = User::create($this->user_mapper->VoToArray($user));
             $this->last_id = $user->id;
             DB::commit();
         } catch (\Exception $e) {
@@ -55,7 +64,7 @@ class UserRepository implements IUserRepository
         return true;
     }
 
-    public function getById(int $id): IUserEntity
+    public function getEntityById(int $id): IUserEntity
     {
         $user = User::find($id);
         if (!$user) {
@@ -76,18 +85,16 @@ class UserRepository implements IUserRepository
         return $last_id;
     }
 
-    public function update(array $user_update): bool
+    public function update(Model $user_update): bool
     {
-        $user_old = User::find($user_update[User::FIELD_ID]);
-        $user_new = clone $user_old;
-        $user_new[User::FIELD_EMAIL] = $user_update[User::FIELD_EMAIL];
+        $old_user = User::find($user_update->id);
         DB::beginTransaction();
         try {
-            $user_new->save();
+            $user_update->save();
             DB::commit();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            $user_old->save();
+            $old_user->save();
             DB::rollback();
             return false;
         }
@@ -107,5 +114,15 @@ class UserRepository implements IUserRepository
             $user_info->description ?? '',
             $user_info->id,
         );
+    }
+
+    public function getModelById(int $id): ?Model
+    {
+        return User::find($id);
+    }
+
+    public function isExistFieldValue(string $field, mixed $value): bool
+    {
+        return User::query()->where($field, '=', $value)->exists();
     }
 }

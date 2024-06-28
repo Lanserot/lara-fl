@@ -68,17 +68,6 @@ class UserVO
         return $this->login;
     }
 
-    public function toArray(): array
-    {
-        return [
-            self::KEY_LOGIN => $this->login,
-            self::KEY_ID => $this->id,
-            self::KEY_EMAIL => $this->email,
-            self::KEY_PASSWORD => $this->password,
-            self::KEY_ROLE_ID => $this->role_id,
-        ];
-    }
-
     public function getEmail(): string
     {
         return $this->email;

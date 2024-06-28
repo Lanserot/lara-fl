@@ -24,7 +24,7 @@ class UserController extends Controller
         }
         /** @var UserRepository $rep */
         $rep = app(IUserRepository::class);
-        $user = $rep->getById($id);
+        $user = $rep->getEntityById($id);
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }
@@ -43,7 +43,7 @@ class UserController extends Controller
         }
         /** @var UserRepository $rep */
         $rep = app(IUserRepository::class);
-        $user = $rep->getById($id);
+        $user = $rep->getEntityById($id);
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }

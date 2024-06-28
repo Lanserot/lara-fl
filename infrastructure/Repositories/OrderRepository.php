@@ -8,6 +8,7 @@ use App\Models\Order\Order;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Infrastructure\Interfaces\Order\IOrderMapper;
 use Infrastructure\Interfaces\Order\IOrderRepository;
 
 /**
@@ -16,13 +17,22 @@ use Infrastructure\Interfaces\Order\IOrderRepository;
  */
 class OrderRepository implements IOrderRepository
 {
+    private IOrderMapper $orderMapper;
+
+    public function __construct(IOrderMapper $orderMapper)
+    {
+        $this->orderMapper = $orderMapper;
+    }
+
     private int $last_id = 0;
 
     public function save(OrderVO $order_vo): bool
     {
         DB::beginTransaction();
         try {
-            $order = Order::create(array_merge($order_vo->toArray(), ['user_id' => auth('api')->user()->getAuthIdentifier()]));
+            $order_array = $this->orderMapper->VoToArray($order_vo);
+            $order_array['user_id'] = auth('api')->user()->getAuthIdentifier();
+            $order = Order::create($order_array);
             $this->last_id = $order->id;
             DB::commit();
         } catch (\Exception $e) {

@@ -29,6 +29,9 @@ Route::middleware('jwt.auth')->group(function () {
         ]
     )->only(['store']);
 });
+
 Route::middleware(['not.login'])->group(function () {
-    Route::apiResource('users', UserController::class)->names(['store' => 'user.create',])->only(['show']);
+    Route::apiResource('users', UserController::class)->names(
+        ['store' => 'user.create']
+    )->only(['store']);
 });

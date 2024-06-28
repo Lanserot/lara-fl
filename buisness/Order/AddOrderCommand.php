@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Buisness\Order;
 
 use App\Events\OrderCreated;
-use Buisness\File\Security\CanAddFileCommand;
+use Buisness\Order\Security\CanAddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +26,7 @@ class AddOrderCommand extends BaseCommand
 
     public function execute(): JsonResponse
     {
-        if (!(new CanAddFileCommand())->execute()) {
+        if (!(new CanAddOrderCommand())->execute()) {
             return JsonFormatter::makeAnswer(Response::HTTP_FORBIDDEN);
         }
 

@@ -21,7 +21,7 @@ class CanAddOrderCommand extends BaseCommand
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
         $role = Role::findById(
-            $user_repository->getById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
+            $user_repository->getEntityById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
             'api'
         );
         //TODO: вынести APP
