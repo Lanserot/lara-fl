@@ -6,8 +6,8 @@ namespace Infrastructure\Mapper\User;
 
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Support\Facades\Hash;
-use Infrastructure\Interfaces\IUserMapper;
 use Infrastructure\Interfaces\User\IUserEntity;
+use Infrastructure\Interfaces\User\IUserMapper;
 
 /**
  * Class UserMapper
@@ -21,6 +21,8 @@ class UserMapper implements IUserMapper
             'id' => $user->getId(),
             'login' => $user->getLogin(),
             'email' => $user->getEmail(),
+            'password' => '',
+            'role_id' => $user->getRoleId(),
         ];
     }
 
@@ -31,6 +33,7 @@ class UserMapper implements IUserMapper
             (int)$data[UserVO::KEY_PASSWORD] ?? 0,
             $data[UserVO::KEY_EMAIL] ?? '',
             $data[UserVO::KEY_PASSWORD] ?? '',
+            $data[UserVO::KEY_ROLE_ID] ?? 0,
         );
     }
 
@@ -41,6 +44,19 @@ class UserMapper implements IUserMapper
             (int)$data[UserVO::KEY_PASSWORD] ?? 0,
             $data[UserVO::KEY_EMAIL] ?? '',
             Hash::make($data[UserVO::KEY_PASSWORD]) ?? '',
+            $data[UserVO::KEY_ROLE_ID] ?? 0,
         );
     }
+
+    public function VoToArray(UserVO $user): array
+    {
+        return [
+            UserVO::KEY_LOGIN => $user->getLogin(),
+            UserVO::KEY_PASSWORD => $user->getPassword(),
+            UserVO::KEY_ID => $user->getId(),
+            UserVO::KEY_ROLE_ID => $user->getRoleId(),
+            UserVO::KEY_EMAIL => $user->getEmail()
+        ];
+    }
+
 }

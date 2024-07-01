@@ -13,4 +13,5 @@ interface IUserEntity
     public function getLogin(): string;
     public function getId(): int;
     public function getEmail(): string;
+    public function getRoleId(): int;
 }

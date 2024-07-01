@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - 80:80
+        volumes:
+            - './:/var/www/html'
+            - './docker/nginx/conf.d:/etc/nginx/conf.d'
+        networks:
+            - fl-up
+    php:
+        build:
+            context: ./docker/php
+        volumes:
+            - './:/var/www/html'
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            - fl-up
+
+    mysql:
+        image: mysql:8
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=laravel
+        volumes:
+            - './docker/volume/mysql:/var/lib/mysql'
+        networks:
+            - fl-up
+        ports:
+            - "3306:3306"
+
+    composer:
+        build:
+            context: ./docker/composer
+        volumes:
+            - './:/var/www/html'
+        networks:
+            - fl-up
+networks:
+    fl-up:
