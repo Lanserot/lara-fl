@@ -6,6 +6,7 @@ namespace Tests\Unit\app\Http\Controllers\User\Api;
 
 use App\Http\Controllers\User\Api\UserController;
 use App\Models\User\User;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +25,21 @@ class UserControllerTest extends TestCase
      */
     public function testStore(array $data, int $code)
     {
-        $controller = (new UserController());
-        $request = new Request();
-        $request->merge($data);
-        $result = $controller->store($request);
+        DB::beginTransaction();
+
+        try {
+            $controller = (new UserController());
+            $request = new Request();
+            $request->merge($data);
+            $result = $controller->store($request);
+        }catch (\Exception $e){
+            var_dump($e->getMessage());
+            DB::rollBack();
+            $this->fail();
+        }
+
         $this->assertEquals($code, $result->getStatusCode());
+        DB::rollBack();
     }
 
     static function storeProvider(): array
@@ -65,13 +76,23 @@ class UserControllerTest extends TestCase
     public function testUpdate(array $data, int $code, int $id)
     {
 
-        $user = User::where('login', 'login')->first();
-        Auth::shouldReceive('user')->andReturn($user);
+        DB::beginTransaction();
 
-        $controller = (new UserController());
-        $request = new Request();
-        $request->merge($data);
-        $result = $controller->update($request, $id);
+        try {
+            $user = User::where('login', 'login')->first();
+            Auth::shouldReceive('user')->andReturn($user);
+
+            $controller = (new UserController());
+            $request = new Request();
+            $request->merge($data);
+            $result = $controller->update($request, $id);
+        }catch (\Exception $e){
+            var_dump($e->getMessage());
+            DB::rollBack();
+            $this->fail();
+        }
+
+        DB::rollBack();
         $this->assertEquals($code, $result->getStatusCode());
     }
 
@@ -80,8 +101,7 @@ class UserControllerTest extends TestCase
     {
         return [
             'меняем мыло' => [['email' => 'test12@mail.ru', 'login' => 'login'], Response::HTTP_OK, 10],
-            'мыло занято' => [['email' => 'test12@mail.ru', 'login' => 'login'], Response::HTTP_FOUND, 10],
-            'меняю обратно' => [['email' => 'test@example.com', 'login' => 'login'], Response::HTTP_OK, 10],
+            'мыло занято' => [['email' => 'test@example.com', 'login' => 'login'], Response::HTTP_FOUND, 10],
         ];
     }
 }

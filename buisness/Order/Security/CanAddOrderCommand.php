@@ -18,20 +18,17 @@ class CanAddOrderCommand extends BaseCommand
 {
     public function execute(): bool
     {
+        //TODO:: исправить выборку роли
         /** @var UserRepository $user_repository */
         $user_repository = app(IUserRepository::class);
         $role = Role::findById(
             $user_repository->getEntityById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
             'api'
         );
-        //TODO: вынести APP
-        if(!$role->hasAnyPermission([
+
+        return $role->hasAnyPermission([
             RolePermissions::API->value,
             RolePermissions::API_USER->value
-        ])){
-            return false;
-        }
-
-        return true;
+        ]);
     }
 }
