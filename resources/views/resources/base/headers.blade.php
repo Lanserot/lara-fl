@@ -3,10 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
 
-    <title>Laravel</title>
-    <script src="{{  mix('resources/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{  mix('resources/js/tinymce.min.js') }}"></script>
+    <!-- <title>Laravel</title> -->
+    <title>Demo Version</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/tinymce.min.js"></script>
 
     <!-- Fonts -->
     {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
@@ -17,9 +19,16 @@
 
     <!-- Styles -->
     <style>
+        .navbar-danger {
+            background-color: #dc3545 !important; /* Bootstrap's danger color */
+            color: white !important; /* Text color for better contrast */
+        }
     </style>
 </head>
 <body class="antialiased">
+    <nav class="navbar navbar-danger">
+    DEMO версия
+</nav>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/"><?= env('APP_NAME') ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

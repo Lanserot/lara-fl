@@ -18,6 +18,9 @@
             $.ajax({
                 url: '<?= route('login') ?>',
                 type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
                 data: {
                     _token: "{{ csrf_token() }}",
                     login: $('input[name="login"]').val(),
