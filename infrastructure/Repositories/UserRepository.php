@@ -45,6 +45,7 @@ class UserRepository implements IUserRepository
             $user[userVO::KEY_EMAIL],
             $user[userVO::KEY_ID],
             $user[userVO::KEY_ROLE_ID],
+            new NullUserInfoEntity()
         );
     }
 
@@ -70,11 +71,14 @@ class UserRepository implements IUserRepository
         if (!$user) {
             return new NullUserEntity();
         }
+        $user_info_entity = $this->getUserInfoByIdEntity($id);
+
         return new UserEntity(
             $user->login,
             $user->email,
             $user->id,
             $user->role_id,
+            $user_info_entity
         );
     }
 
@@ -102,7 +106,7 @@ class UserRepository implements IUserRepository
         return true;
     }
 
-    public function getUserInfoByUserId(int $id): IUserInfoEntity
+    public function getUserInfoByIdEntity(int $id): IUserInfoEntity
     {
         $user_info = UserInfo::getByUserIdOrCreate($id);
         if (!$user_info) {
@@ -113,6 +117,7 @@ class UserRepository implements IUserRepository
             $user_info->second_name ?? '',
             $user_info->description ?? '',
             $user_info->id,
+            $user_info->avatar_id ?? 0,
         );
     }
 

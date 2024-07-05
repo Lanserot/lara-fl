@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileStorageRepository implements IFileStorageRepository
 {
-    public function save(UploadedFile $file): bool
+    private int $last_id = 0;
+
+    public function save(UploadedFile $file, int $group_id): bool
     {
         $user_id = auth()->user()->getAuthIdentifier();
         $fileExtension = $file->getClientOriginalExtension();
@@ -30,7 +32,7 @@ class FileStorageRepository implements IFileStorageRepository
                 FileStorage::FIELD_FORMAT           => $fileExtension,
                 FileStorage::FIELD_MIME_TYPE        => $file->getMimeType(),
                 FileStorage::FIELD_SIZE             => $file->getSize(),
-                FileStorage::FIELD_GROUP             => 1,
+                FileStorage::FIELD_GROUP            => $group_id,
             ]);
             $this->last_id = $file_storage->id;
             $file->move($path, $newFileName);
@@ -42,5 +44,10 @@ class FileStorageRepository implements IFileStorageRepository
         }
 
         return true;
+    }
+
+    public function getLastId(): int
+    {
+        return $this->last_id;
     }
 }

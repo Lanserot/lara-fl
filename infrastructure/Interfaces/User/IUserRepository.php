@@ -11,7 +11,7 @@ interface IUserRepository
     public function save(UserVO $user): bool;
     public function getEntityById(int $id): IUserEntity;
     public function update(Model $user_update): bool;
-    public function getUserInfoByUserId(int $id): IUserInfoEntity;
+    public function getUserInfoByIdEntity(int $id): IUserInfoEntity;
     public function getModelById(int $id): ?Model;
 
     public function isExistFieldValue(string $field, mixed $value): bool;

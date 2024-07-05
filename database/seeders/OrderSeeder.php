@@ -22,7 +22,6 @@ class OrderSeeder extends Seeder
                 '3д бмв',
                 '<p>создать модель бмв</p>
                  <p>и шоб дверки открывались</p>',
-
             ))
             ->setCategoryId(2)
             ->execute();
@@ -30,9 +29,15 @@ class OrderSeeder extends Seeder
             ->setOrderVo(OrderVO::get(
                 'Создать новый вк',
                 '<p>Ну в общем круто хочу, что бы было, да</p>',
-                3
             ))
             ->setCategoryId(3)
+            ->execute();
+        (new AddOrderCommand())
+            ->setOrderVo(OrderVO::get(
+                'реализовать покемонов',
+                '<p>Ну в общем круто хочу, что бы было, да</p>',
+            ))
+            ->setCategoryId(1)
             ->execute();
     }
 }

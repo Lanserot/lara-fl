@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User\Api;
 
-use App\Enums\Roles;
+use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +49,7 @@ class UserController extends Controller
         }
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);
-        $data['role_id'] = Role::findByName(Roles::USER->value, 'api')->id;
+        $data['role_id'] = Role::findByName(RolesEnum::USER->value, 'api')->id;
         return (new RegistrationUserCommand(
             $user_mapper->arrayLoginToVoHash($data))
         )->execute();

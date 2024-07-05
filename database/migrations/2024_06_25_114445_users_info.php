@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
+            $table->bigInteger('avatar_id')->nullable();
             $table->string('name')->nullable();
             $table->string('second_name')->nullable();
             $table->mediumText('description')->nullable();

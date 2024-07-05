@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum RolePermissions: string
+enum RolePermissionsEnum: string
 {
     case API = 'api';
     case API_USER = 'api_user';
