@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <link rel="icon" type="image/x-icon" href="{{ mix('resources/icons/favicon-32.ico') }}">
+
+    <title>@yield('title')</title>
     <script src="{{  mix('resources/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{  mix('resources/js/tinymce.min.js') }}"></script>
 
@@ -56,3 +58,9 @@
     </div>
 </nav>
 <div class="container mt-5">
+    @yield('content')
+</div>
+<link href="{{ mix('resources/css/bootstrap.min.css') }}" rel="stylesheet">
+
+</body>
+</html>

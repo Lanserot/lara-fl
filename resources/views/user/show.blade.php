@@ -1,4 +1,6 @@
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'Показ пользователя')
+@section('content')
 <?php
 /** @var \Infrastructure\Interfaces\User\IUserEntity $user */
 /** @var \Infrastructure\Interfaces\User\IUserInfoEntity $user_info */
@@ -21,4 +23,4 @@
         <button class="btn btn-info"> Изменить</button>
     </a>
 </div>
-@include('resources.base.footer')
+@endsection

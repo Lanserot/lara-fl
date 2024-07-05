@@ -1,7 +1,7 @@
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'Главная страница')
+@section('content')
 {{--@dd(\Tymon\JWTAuth\Facades\JWTAuth::fromUser(auth()->user()))--}}
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 <h3>Категории</h3>
 <div class="row">
     @foreach($categories as $category)
@@ -30,4 +30,4 @@
         </div>
     @endforeach
 </div>
-@include('resources.base.footer')
+@endsection

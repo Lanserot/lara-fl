@@ -13,6 +13,5 @@ interface IUserRepository
     public function update(Model $user_update): bool;
     public function getUserInfoByIdEntity(int $id): IUserInfoEntity;
     public function getModelById(int $id): ?Model;
-
     public function isExistFieldValue(string $field, mixed $value): bool;
 }

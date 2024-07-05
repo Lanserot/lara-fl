@@ -14,11 +14,13 @@ use Infrastructure\Interfaces\Order\IOrderMapper;
  */
 class OrderMapper implements IOrderMapper
 {
-    public function VoToArray(OrderVO $orderVO): array
+    public function VoToArray(OrderVO $orderVo): array
     {
         return [
-            Order::FIELD_DESCRIPTION => $orderVO->getDescription(),
-            Order::FIELD_TITLE => $orderVO->getTitle()
+            Order::FIELD_DESCRIPTION => $orderVo->getDescription(),
+            Order::FIELD_TITLE => $orderVo->getTitle(),
+            Order::FIELD_DATE => $orderVo->getDate(),
+            Order::FIELD_BUDGET => $orderVo->getBudget(),
         ];
     }
 }

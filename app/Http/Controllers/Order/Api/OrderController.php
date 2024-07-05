@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Order\Api;
 
 use App\Http\Controllers\Controller;
+use App\Rules\DateFormat;
 use Buisness\Order\GetOrderCommand;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\AddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
@@ -20,7 +22,8 @@ class OrderController extends Controller
         $validator = Validator::make($data, [
             'title' => 'required|max:50',
             'description' => 'required',
-            'category' => 'required|int|not_in:0',
+            'budget' => 'required|int',
+            'date' => ['nullable', new DateFormat()],
         ]);
         $validator = \Infrastructure\Tools\Validator::validateData($validator);
         if ($validator) {
@@ -30,7 +33,12 @@ class OrderController extends Controller
         try {
             return (new AddOrderCommand())
                 ->setOrderVo(OrderVO::get(
-                    ...request(['title', 'description'])
+                    ...request([
+                        'title',
+                        'description',
+                        'budget',
+                        'date'
+                    ])
                 ))
                 ->setCategoryId($request->get('category'))
                 ->execute();
