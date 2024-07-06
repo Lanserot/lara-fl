@@ -106,30 +106,38 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "ID ордера"
-                    },
-                    "user_id": {
-                      "type": "integer",
-                      "description": "ID пользователя"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "Название ордера"
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "Статус ордера"
-                    },
-                    "category_name": {
-                      "type": "string",
-                      "description": "Категория в латинице"
-                    },
-                    "category_name_rus": {
-                      "type": "string",
-                      "description": "Категория в кириллице"
-                    }
+                      "id": {
+                          "type": "integer",
+                          "description": "ID ордера"
+                      },
+                      "user_id": {
+                          "type": "integer",
+                          "description": "ID пользователя"
+                      },
+                      "title": {
+                          "type": "string",
+                          "description": "Название ордера"
+                      },
+                      "description": {
+                          "type": "string",
+                          "description": "Статус ордера"
+                      },
+                      "budget": {
+                          "description": "Бюджет заказа",
+                          "type": "integer"
+                      },
+                      "date": {
+                          "description": "Срок заказа",
+                          "type": "string"
+                      },
+                      "created_at": {
+                          "description": "Дата создания заказа",
+                          "type": "string"
+                      },
+                      "updated_at": {
+                          "description": "Дата обновления заказа",
+                          "type": "string"
+                      }
                   }
                 }
               }

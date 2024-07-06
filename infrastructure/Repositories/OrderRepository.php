@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Infrastructure\Repositories;
 
+use App\Models\Category\Category;
 use App\Models\Order\Order;
+use Buisness\Category\ValueObject\CategoryVO;
+use Buisness\Order\Entity\NullOrderEntity;
+use Buisness\Order\Entity\OrderEntity;
 use Buisness\Order\ValueObject\OrderVO;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Infrastructure\Interfaces\Order\IOrderEntity;
 use Infrastructure\Interfaces\Order\IOrderMapper;
 use Infrastructure\Interfaces\Order\IOrderRepository;
 
@@ -44,21 +50,34 @@ class OrderRepository implements IOrderRepository
         return true;
     }
 
-    public function getById(int $id): array
+    public function getEntityById(int $id): IOrderEntity
     {
-        $order = Order::query()
-            ->select('orders.*',
-                'categories.name as category_name',
-                'categories.name_rus as category_name_rus')
-            ->join('order_to_category', 'order_to_category.order_id', '=', 'orders.id')
-            ->join('categories', 'categories.id', '=', 'order_to_category.category_id')
-            ->where('order_id', '=', $id)
-            ->first();
-        if (is_null($order)) {
-            return [];
+        $order = $this->getModelById($id);
+
+        if(is_null($order)){
+            return new NullOrderEntity();
         }
 
-        return $order->toArray();
+        $category = Category::query()
+            ->join('order_to_category', 'order_to_category.category_id', '=', 'categories.id')
+            ->where('order_to_category.order_id', '=', $id)
+            ->first();
+
+        if(is_null($category)){
+            return new NullOrderEntity();
+        }
+
+        return new OrderEntity(
+            $this->orderMapper->ModelToVo($order),
+            CategoryVO::get($category->name, $category->name_rus)
+        );
+    }
+
+    public function getModelById(int $id): ?Model
+    {
+        return Order::query()
+            ->where('id', '=', $id)
+            ->first();
     }
 
     public function getLastId(): int

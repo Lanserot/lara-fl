@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Order\Api;
 use App\Http\Controllers\Controller;
 use App\Rules\DateFormat;
 use Buisness\Order\GetOrderCommand;
-use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\AddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
@@ -33,12 +32,11 @@ class OrderController extends Controller
         try {
             return (new AddOrderCommand())
                 ->setOrderVo(OrderVO::get(
-                    ...request([
-                        'title',
-                        'description',
-                        'budget',
-                        'date'
-                    ])
+                    $request->get('title'),
+                    $request->get('description'),
+                    '',
+                    $request->get('budget'),
+                    $request->get('date'),
                 ))
                 ->setCategoryId($request->get('category'))
                 ->execute();

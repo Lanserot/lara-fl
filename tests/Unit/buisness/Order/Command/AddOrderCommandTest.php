@@ -54,6 +54,7 @@ class AddOrderCommandTest extends TestCase
                 OrderVO::get(
                     'Новая задача',
                     'Описание задачи',
+                    '',
                     0,
                     ''
                 ),
@@ -64,6 +65,7 @@ class AddOrderCommandTest extends TestCase
                 OrderVO::get(
                     'Новая задача',
                     'Описание задачи',
+                    '',
                     0,
                     ''
                 ),
@@ -118,6 +120,7 @@ class AddOrderCommandTest extends TestCase
                 OrderVO::get(
                     'Новая задача',
                     'Описание задачи',
+                    '',
                     0,
                     ''
                 ),
