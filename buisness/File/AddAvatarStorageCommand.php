@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Buisness\File;
 
-use App\Enums\FileGroupsEnum;
 use App\Events\AddAvatarFile;
 use Buisness\File\Security\CanAddFileCommand;
 use Illuminate\Http\JsonResponse;
+use Infrastructure\Enums\FileGroupsEnum;
 use Infrastructure\Interfaces\IFileStorageRepository;
 use Infrastructure\Tools\JsonFormatter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\User\Api;
 
-use App\Enums\RolesEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
-use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\Command\EditUserCommand;
 use Buisness\User\Command\RegistrationUserCommand;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Infrastructure\Enums\RolesEnum;
 use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
 use Spatie\Permission\Models\Role;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest

@@ -26,20 +26,21 @@
         <ul class="navbar-nav mr-auto">
             @if (Auth::check())
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         Link
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                         <li><a class="dropdown-item" href="{{route('user.show', Auth::user()->id)}}">Профиль</a></li>
                         <li><a class="dropdown-item" href="{{route('user.my_list')}}">Мои заказы</a></li>
-{{--                        <li><hr class="dropdown-divider"></li>--}}
-{{--                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
+                        {{--                        <li><hr class="dropdown-divider"></li>--}}
+                        {{--                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
                     </ul>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('order') }}">Создать</a>
                 </li>
-                @if (Auth::user()->hasRole(\App\Enums\RolesEnum::ADMIN->value))
+                @if (Auth::user()->hasRole(\Infrastructure\Enums\RolesEnum::ADMIN->value))
                     <li class="nav-item active">
                         <a class="nav-link" href="/user/admin">Админ</a>
                     </li>
@@ -49,18 +50,18 @@
                 <a class="nav-link" href="{{ route('order.list') }}">Заказы</a>
             </li>
 
-                @if (Auth::check())
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('logout') }}">Выход</a>
-                    </li>
-                @else
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('login') }}">Логин</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('registration') }}">Регистрация</a>
-                    </li>
-                @endif
+            @if (Auth::check())
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('logout') }}">Выход</a>
+                </li>
+            @else
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('login') }}">Логин</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ route('registration') }}">Регистрация</a>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>

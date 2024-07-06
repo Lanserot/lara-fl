@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware\User;
 
-use App\Enums\RolesEnum;
 use Closure;
 use Illuminate\Http\Request;
+use Infrastructure\Enums\RolesEnum;
 use Symfony\Component\HttpFoundation\Response;
 
 class IsAdmin

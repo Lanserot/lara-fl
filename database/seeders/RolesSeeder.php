@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RolePermissionsEnum;
-use App\Enums\RolesEnum;
 use Illuminate\Database\Seeder;
+use Infrastructure\Enums\RolePermissionsEnum;
+use Infrastructure\Enums\RolesEnum;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Buisness\File\Security;
 
-use App\Enums\RolePermissionsEnum;
 use Infrastructure\BaseCommand;
+use Infrastructure\Enums\RolePermissionsEnum;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
 use Spatie\Permission\Models\Role;
@@ -24,7 +24,6 @@ class CanAddFileCommand extends BaseCommand
             $user_repository->getEntityById(auth('api')->user()->getAuthIdentifier())->getRoleId(),
             'api'
         );
-        //TODO: вынести APP
         if(!$role->hasAnyPermission([
             RolePermissionsEnum::API->value,
             RolePermissionsEnum::API_USER->value

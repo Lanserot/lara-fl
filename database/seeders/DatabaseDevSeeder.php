@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RolePermissionsEnum;
-use App\Enums\RolesEnum;
 use App\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Infrastructure\Enums\RolePermissionsEnum;
+use Infrastructure\Enums\RolesEnum;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Buisness\Order\Security;
 
-use App\Enums\RolePermissionsEnum;
 use Infrastructure\BaseCommand;
+use Infrastructure\Enums\RolePermissionsEnum;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
 use Spatie\Permission\Models\Role;

@@ -2,11 +2,11 @@
 
 namespace Database\Factories\User;
 
-use App\Enums\RolesEnum;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Infrastructure\Enums\RolesEnum;
 use Spatie\Permission\Models\Role;
 
 /**

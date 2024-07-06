@@ -9,7 +9,7 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (\App\Enums\CategoryEnum::cases() as $case) {
+        foreach (\Infrastructure\Enums\CategoryEnum::cases() as $case) {
             Category::create([
                 'name' => $case->value,
                 'name_rus' => $case->getNameRus(),

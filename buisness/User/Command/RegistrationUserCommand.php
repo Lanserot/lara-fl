@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Buisness\User\Command;
 
-use App\Models\User\User;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Auth\GenericUser;
@@ -34,12 +33,11 @@ class RegistrationUserCommand extends BaseCommand
 
     public function execute(): JsonResponse
     {
-        //TODO:вынести app из бизнеса
-        if ($this->user_repository->isExistFieldValue(User::FIELD_LOGIN, $this->user_vo->getLogin())) {
-            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, User::FIELD_LOGIN);
+        if ($this->user_repository->isExistFieldValue(UserVO::KEY_LOGIN, $this->user_vo->getLogin())) {
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, UserVO::KEY_LOGIN);
         }
-        if ($this->user_repository->isExistFieldValue(User::FIELD_EMAIL, $this->user_vo->getEmail())) {
-            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, User::FIELD_EMAIL);
+        if ($this->user_repository->isExistFieldValue(UserVO::KEY_EMAIL, $this->user_vo->getEmail())) {
+            return JsonFormatter::makeAnswer(Response::HTTP_FOUND, UserVO::KEY_EMAIL);
         }
 
         if(!$this->user_repository->save($this->user_vo)){

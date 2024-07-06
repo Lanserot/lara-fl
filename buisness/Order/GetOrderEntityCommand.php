@@ -12,9 +12,7 @@ use Infrastructure\Tools\JsonFormatter;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class addOrderCommand
- * @package Buisness\Order
- * TODO: Сделать тест
+ * @see \Tests\Unit\buisness\Order\Command\GetOrderEntityCommandTest
  */
 class GetOrderEntityCommand extends BaseCommand
 {
