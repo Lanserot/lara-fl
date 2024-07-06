@@ -45,7 +45,12 @@ Route::middleware(['is.login'])->group(function () {
     });
 
 });
+Route::prefix('user/admin')->group(function () {
+    Route::middleware(['is.admin'])->group(function () {
+        Route::get('/', [\App\Http\Controllers\User\Admin\AdminController::class, 'index']);
 
+    });
+});
 Route::get('/order/list', [OrderController::class, 'list'])->name('order.list');
 Route::get('/order/category/{category}', [OrderController::class, 'category'])->name('order.category');
 Route::get('/order/show/{id}', [OrderController::class, 'show'])->name('order.show');

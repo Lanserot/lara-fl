@@ -19,5 +19,7 @@ class RolesSeeder extends Seeder
         $role_user = Role::create(['name' => RolesEnum::ADMIN->value, 'guard_name' => 'api']);
         $permission = Permission::create(['name' => RolePermissionsEnum::API->value, 'guard_name' => 'api']);
         $role_user->givePermissionTo($permission);
+
+        Role::create(['name' => RolesEnum::ADMIN->value]);
     }
 }

@@ -25,6 +25,7 @@ class DatabaseDevSeeder extends Seeder
 
         $permission = Permission::findByName(RolePermissionsEnum::API->value, 'api');
         $user->givePermissionTo($permission);
+        $user->assignRole(RolesEnum::ADMIN->value);
         $user->save();
 
         $this->call([

@@ -1,7 +1,6 @@
 @extends('resources.base.headers')
 @section('title', 'Главная страница')
 @section('content')
-{{--@dd(\Tymon\JWTAuth\Facades\JWTAuth::fromUser(auth()->user()))--}}
 <h3>Категории</h3>
 <div class="row">
     @foreach($categories as $category)
