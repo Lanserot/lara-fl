@@ -26,4 +26,9 @@ final class NullUserEntity implements IUserEntity
     {
         return 0;
     }
+
+    public function getRoleId(): int
+    {
+        return 0;
+    }
 }

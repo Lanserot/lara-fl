@@ -1,3 +1,5 @@
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'О сайте')
+@section('content')
 
-@include('resources.base.footer')
+@endsection

@@ -1,0 +1,283 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API Documentation",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/api/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "description": "Добавления пользователя в бд",
+                "operationId": "createUser",
+                "parameters": [
+                    {
+                        "name": "login",
+                        "in": "query",
+                        "description": "Логин пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Пароль",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
+                    },
+                    {
+                        "name": "password_repeat",
+                        "in": "query",
+                        "description": "Пароль повторение",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "302": {
+                        "description": "Уникальное поле уже занято (доп message)"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "Изменение данных",
+                "operationId": "updateUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "description": "Изменяемый email",
+                                        "type": "string",
+                                        "format": "email",
+                                        "required": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "404": {
+                        "description": "Пользователь не найден"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "302": {
+                        "description": "Уникальное поле уже занято (доп message)"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user",
+                "description": "Получение данных пользователя из бд",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "Удаление пользователя",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "404": {
+                        "description": "Недостаточно прав"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/upload": {
+            "post": {
+                "tags": [
+                    "Files"
+                ],
+                "summary": "Save avatar file",
+                "description": "Добавления картинки на сервер",
+                "operationId": "createFile",
+                "requestBody": {
+                    "description": "File to upload",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "403": {
+                        "description": "Недостаточно прав"
+                    },
+                    "413": {
+                        "description": "Размер файла превышиет допустимый"
+                    },
+                    "415": {
+                        "description": "Формат файла не подходит"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    },
+                    "500": {
+                        "description": "Ошибка"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}

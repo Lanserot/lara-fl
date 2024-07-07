@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\User\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\User\User;
+use Buisness\User\Command\EditUserCommand;
 use Buisness\User\Command\RegistrationUserCommand;
 use Buisness\User\ValueObject\UserVO;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Enums\RolesEnum;
+use Infrastructure\Interfaces\User\IUserMapper;
 use Infrastructure\Mapper\User\UserMapper;
-use Tools\HttpStatuses;
+use Spatie\Permission\Models\Role;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @see \Tests\Unit\app\Http\Controllers\User\UserControllerTest
+ * @see \Tests\Unit\app\Http\Controllers\User\Api\UserControllerTest
  */
 class UserController extends Controller
 {
@@ -24,45 +27,44 @@ class UserController extends Controller
         User::FIELD_EMAIL => 'required|email',
     ];
 
+    public function show(int $id): JsonResponse
+    {
+        return response()->json(['message' => $id])->setStatusCode(Response::HTTP_OK);
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        return response()->json(['message' => $id])->setStatusCode(Response::HTTP_OK);
+    }
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->all();
-        $validator = Validator::make($data, self::USER_RULES);
-        $validator = $this->validateData($validator);
+        $validator = \Infrastructure\Tools\Validator::validateData(Validator::make($data, self::USER_RULES));
         if($validator){
             return $validator;
         }
         if($data[UserVO::KEY_PASSWORD] != $data['password_repeat']){
-            return response()->json(['message' => 'Diff password'])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
+            return response()->json(['message' => 'Diff password'])->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
         /** @var UserMapper $user_mapper */
         $user_mapper = app(IUserMapper::class);
+        $data['role_id'] = Role::findByName(RolesEnum::USER->value, 'api')->id;
         return (new RegistrationUserCommand(
             $user_mapper->arrayLoginToVoHash($data))
         )->execute();
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $data = $request->all();
         $validator = Validator::make($data, [User::FIELD_EMAIL => self::USER_RULES[User::FIELD_EMAIL]]);
-        if($validator = $this->validateData($validator)){
+        if($validator = \Infrastructure\Tools\Validator::validateData($validator)){
             return $validator;
         }
-        return response()->json()->setStatusCode((HttpStatuses::ERROR)->value);
-    }
-
-    protected function validateData(\Illuminate\Validation\Validator $validator): ?JsonResponse
-    {
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            $message = '';
-            foreach ($errors->all() as $error) {
-                $message .= $error . ".";
-            }
-            return response()->json(['message' => $message])->setStatusCode((HttpStatuses::BAD_REQUEST)->value);
-        }
-
-        return null;
+        return (new EditUserCommand(
+            $data[User::FIELD_EMAIL],
+            $id
+        ))->execute();
     }
 }

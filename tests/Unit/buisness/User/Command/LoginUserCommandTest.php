@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\buisness\User\Command;
 
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 use Buisness\User\Command\LoginUserCommand;
 use Buisness\User\ValueObject\UserVO;
-use Infrastructure\Interfaces\IUserMapper;
+use Infrastructure\Interfaces\User\IUserMapper;
+use Infrastructure\Mapper\User\UserMapper;
 use Tests\TestCase;
-use Tools\HttpStatuses;
 
 /**
  * @package Tests\Unit\buisness\User\Command
@@ -26,16 +28,26 @@ class LoginUserCommandTest extends TestCase
      */
     public function testUserLogin(array $data, $result)
     {
-        /** @var \Infrastructure\Mapper\User\UserMapper $user_mapper */
-        $user_mapper = app(IUserMapper::class);
-        $command = (new LoginUserCommand($user_mapper->arrayLoginToVo($data)));
+        DB::beginTransaction();
+
         try {
-            $command_result = $command->execute();
-        } catch (\Exception) {
-            $this->assertTrue(true);
-            return;
+            /** @var UserMapper $user_mapper */
+            $user_mapper = app(IUserMapper::class);
+            $command = (new LoginUserCommand($user_mapper->arrayLoginToVo($data)));
+            try {
+                $command_result = $command->execute();
+            } catch (\Exception $e) {
+                $this->assertTrue(true);
+                return;
+            }
+        }catch (\Exception $e){
+            var_dump($e->getMessage());
+            DB::rollBack();
+            $this->fail();
         }
+
         $this->assertEquals($result, $command_result->getStatusCode());
+        DB::rollBack();
     }
 
     static function userLoginProvider(): array
@@ -46,21 +58,21 @@ class LoginUserCommandTest extends TestCase
                     UserVO::KEY_LOGIN => 'login',
                     UserVO::KEY_PASSWORD => 'password'
                 ],
-                (HttpStatuses::SUCCESS)->value
+                Response::HTTP_OK
             ],
             'Кривой логин или пароль' => [
                 [
                     UserVO::KEY_LOGIN => 'logint',
                     UserVO::KEY_PASSWORD => 'qwerty',
                 ],
-                (HttpStatuses::NOT_FOUND)->value
+                Response::HTTP_NOT_FOUND
             ],
             'Пустые данные' => [
                 [
                     UserVO::KEY_LOGIN => '',
                     UserVO::KEY_PASSWORD => '',
                 ],
-                (HttpStatuses::BAD_REQUEST)->value
+                Response::HTTP_BAD_REQUEST
             ],
         ];
     }

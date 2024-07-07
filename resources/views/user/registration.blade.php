@@ -1,4 +1,6 @@
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'Регистрация')
+@section('content')
 <div>
     <div class="form-group">
         <input type="text" class="form-control" name="login" placeholder="Login">
@@ -15,7 +17,7 @@
     <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
     </div>
-    <button type="submit" class="btn btn-primary sub-btn">Войти</button>
+    <button class="btn btn-primary sub-btn">Зарегистрироваться</button>
 </div>
 
 <script>
@@ -41,4 +43,4 @@
         })
     });
 </script>
-@include('resources.base.footer')
+@endsection

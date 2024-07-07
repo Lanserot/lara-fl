@@ -1,0 +1,207 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API Documentation",
+        "version": "1.0.0"
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        "/api/orders": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create order",
+                "description": "Добавления заявки в бд",
+                "operationId": "createOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "description": "Заголовок заявки",
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "description": {
+                                        "description": "Описание заявки",
+                                        "type": "string",
+                                        "format": "text"
+                                    },
+                                    "category": {
+                                        "description": "ID категории",
+                                        "type": "integer",
+                                        "format": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "category_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get order",
+                "description": "Получение ордера по ID",
+                "operationId": "getOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID ордера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "404": {
+                        "description": "Не найдено"
+                    },
+                    "200": {
+                        "description": "Успешно",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "description": "ID ордера"
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "description": "ID пользователя"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "description": "Название ордера"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "Статус ордера"
+                                        },
+                                        "budget": {
+                                            "description": "Бюджет заказа",
+                                            "type": "integer"
+                                        },
+                                        "date": {
+                                            "description": "Срок заказа",
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "description": "Дата создания заказа",
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "description": "Дата обновления заказа",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/order/can_response": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Check can response",
+                "description": "Можно ли откликнутся по ордер ID",
+                "operationId": "canResponseOrder",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "query",
+                        "description": "ID ордера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID пользователя",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "Ошибка"
+                    },
+                    "404": {
+                        "description": "Не найден создатель заявки"
+                    },
+                    "202": {
+                        "description": "Пользователь создатель заявки"
+                    },
+                    "302": {
+                        "description": "Откликались"
+                    },
+                    "200": {
+                        "description": "Успешно"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}

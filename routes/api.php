@@ -1,19 +1,38 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Files\AvatarUploadController;
+use App\Http\Controllers\Order\Api\OrderController;
+use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+//'index' => 'posts.list',
+//'store' => 'posts.create',
+//'show' => 'posts.view',
+//'update' => 'posts.edit',
+//'destroy' => 'posts.delete'
+Route::middleware('jwt.auth')->group(function () {
+    Route::apiResource('users', UserController::class)->names(
+        [
+            'update' => 'user.update',
+            'show' => 'user.show',
+        ]
+    )->only(['update', 'show']);
+    Route::get('/order/can_response', [OrderController::class, 'canResponse']);
+    Route::apiResource('orders', OrderController::class)->names(
+        [
+            'store' => 'order.create',
+            'show' => 'order.view',
+        ]
+    )->only(['store', 'show']);
+    Route::apiResource('files', AvatarUploadController::class)->names(
+        [
+            'store' => 'file.upload'
+        ]
+    )->only(['store']);
+});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['not.login'])->group(function () {
+    Route::apiResource('users', UserController::class)->names(
+        ['store' => 'user.create']
+    )->only(['store']);
 });
