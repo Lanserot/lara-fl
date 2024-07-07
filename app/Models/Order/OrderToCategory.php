@@ -2,13 +2,10 @@
 
 namespace App\Models\Order;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderToCategory extends Model
 {
-    use HasFactory;
-
     protected $table = 'order_to_category';
 
     protected $fillable = [

@@ -14,13 +14,15 @@ use Infrastructure\Interfaces\Order\IOrderEntity;
  */
 class OrderEntity implements IOrderEntity
 {
+    private int $user_id;
     private OrderVO $order_vo;
     private CategoryVO $category_vo;
 
-    public function __construct(OrderVO $order_vo, CategoryVO $category_vo)
+    public function __construct(OrderVO $order_vo, CategoryVO $category_vo, int $user_id)
     {
         $this->order_vo = $order_vo;
         $this->category_vo = $category_vo;
+        $this->user_id = $user_id;
     }
 
     public function getOrderVo(): OrderVO
@@ -31,5 +33,10 @@ class OrderEntity implements IOrderEntity
     public function getCategoryVo(): CategoryVO
     {
         return $this->category_vo;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
     }
 }

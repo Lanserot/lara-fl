@@ -9,4 +9,5 @@ interface IOrderEntity
 {
     public function getOrderVO(): OrderVO;
     public function getCategoryVO(): CategoryVO;
+    public function getUserId(): int;
 }

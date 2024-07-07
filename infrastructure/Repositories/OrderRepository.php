@@ -69,7 +69,8 @@ class OrderRepository implements IOrderRepository
 
         return new OrderEntity(
             $this->orderMapper->ModelToVo($order),
-            CategoryVO::get($category->name, $category->name_rus)
+            CategoryVO::get($category->name, $category->name_rus),
+            $order->user_id
         );
     }
 
@@ -83,5 +84,13 @@ class OrderRepository implements IOrderRepository
     public function getLastId(): int
     {
         return $this->last_id;
+    }
+
+    public function getOrderOwnerId(int $id): ?int
+    {
+        return Order::query()
+            ->where('id', '=', $id)
+            ->pluck('user_id')
+            ->first();
     }
 }

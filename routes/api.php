@@ -17,6 +17,7 @@ Route::middleware('jwt.auth')->group(function () {
             'show' => 'user.show',
         ]
     )->only(['update', 'show']);
+    Route::get('/order/can_response', [OrderController::class, 'canResponse']);
     Route::apiResource('orders', OrderController::class)->names(
         [
             'store' => 'order.create',

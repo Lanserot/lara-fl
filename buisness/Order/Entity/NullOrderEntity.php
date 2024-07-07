@@ -23,4 +23,9 @@ class NullOrderEntity implements IOrderEntity
     {
         return CategoryVO::getNull();
     }
+
+    public function getUserId(): int
+    {
+        return 0;
+    }
 }

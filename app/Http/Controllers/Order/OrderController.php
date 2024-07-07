@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Category\Category;
 use App\Models\Order\Order;
+use Buisness\Order\CheckUserCanRespondToOrderCommand;
 use Buisness\Order\GetOrderEntityCommand;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -48,10 +49,19 @@ class OrderController extends Controller
     public function show(int $id): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
         $order = (new GetOrderEntityCommand())->setOrderId($id)->execute();
-        if($order->getStatusCode() == Response::HTTP_OK){
-            return view("order/show", ['order' => json_decode($order->getData()->message)]);
+        if ($order->getStatusCode() !== Response::HTTP_OK) {
+            return redirect()->route('main');
         }
-        return redirect()->route('main');
+
+        $can_response = (new CheckUserCanRespondToOrderCommand())
+            ->setOrderId($id)
+            ->setUserId(auth()->user()->getAuthIdentifier())
+            ->execute();
+
+        return view("order/show", [
+            'order' => json_decode($order->getData()->message),
+            'can_response' => $can_response->getStatusCode() == Response::HTTP_OK
+        ]);
     }
 
     public function myList(): View|\Illuminate\Foundation\Application|Factory|Application
