@@ -59,12 +59,4 @@ class OrderController extends Controller
             ->setOrderId((int) $request->get('order_id'))
             ->execute();
     }
-
-    public function orderResponse(Request $request): JsonResponse
-    {
-        return (new UserRespondToOrderCommand())
-            ->setUserId((int) $request->get('user_id'))
-            ->setOrderId((int) $request->get('order_id'))
-            ->execute();
-    }
 }

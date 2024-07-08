@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Files\AvatarUploadController;
 use App\Http\Controllers\Order\Api\OrderController;
+use App\Http\Controllers\Order\Api\OrderResponseController;
 use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,11 @@ Route::middleware('jwt.auth')->group(function () {
             'show' => 'order.view',
         ]
     )->only(['store', 'show']);
+    Route::apiResource('order-response', OrderResponseController::class)->names(
+        [
+            'store' => 'order-response.create',
+        ]
+    )->only(['store']);
     Route::apiResource('files', AvatarUploadController::class)->names(
         [
             'store' => 'file.upload'

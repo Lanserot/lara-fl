@@ -60,7 +60,8 @@ class OrderController extends Controller
 
         return view("order/show", [
             'order' => json_decode($order->getData()->message),
-            'can_response' => $can_response->getStatusCode() == Response::HTTP_OK
+            'can_response' => $can_response->getStatusCode() == Response::HTTP_OK,
+            'order_id' => $id
         ]);
     }
 
