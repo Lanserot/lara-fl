@@ -9,6 +9,7 @@ class FileStorage extends Model
 {
     use HasFactory;
 
+    public const TABLE = 'file_storages';
     public const FIELD_USER_ID = 'user_id';
     public const FIELD_ORIGINAL_NAME = 'original_name';
     public const FIELD_NAME = 'name';

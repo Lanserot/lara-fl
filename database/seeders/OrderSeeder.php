@@ -22,6 +22,7 @@ class OrderSeeder extends Seeder
                 '3д бмв',
                 '<p>создать модель бмв</p>
                  <p>и шоб дверки открывались</p>',
+                '',
                 0,
                 '01-11-2024'
             ))
@@ -31,6 +32,7 @@ class OrderSeeder extends Seeder
             ->setOrderVo(OrderVO::get(
                 'Создать новый вк',
                 '<p>Ну в общем круто хочу, что бы было, да</p>',
+                '',
                 10000,
                 '01-11-2024'
             ))
@@ -40,6 +42,7 @@ class OrderSeeder extends Seeder
             ->setOrderVo(OrderVO::get(
                 'реализовать покемонов',
                 '<p>Ну в общем круто хочу, что бы было, да</p>',
+                '',
                 0,
                 ''
             ))
@@ -49,6 +52,7 @@ class OrderSeeder extends Seeder
             ->setOrderVo(OrderVO::get(
                 'Написать песню',
                 '<p>Крутой трек для попсы</p>',
+                '',
                 1000,
                 ''
             ))

@@ -109,7 +109,7 @@ class UserRepository implements IUserRepository
     public function getUserInfoByIdEntity(int $id): IUserInfoEntity
     {
         $user_info = UserInfo::getByUserIdOrCreate($id);
-        if (!$user_info) {
+        if (is_null($user_info)) {
             return new NullUserInfoEntity();
         }
         return new UserInfoEntity(

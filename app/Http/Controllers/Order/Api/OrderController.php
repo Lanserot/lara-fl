@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Rules\DateFormat;
 use Buisness\Order\CheckUserCanRespondToOrderCommand;
 use Buisness\Order\GetOrderCommand;
+use Buisness\Order\UserRespondToOrderCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\AddOrderCommand;
 use Buisness\Order\ValueObject\OrderVO;
@@ -54,6 +55,14 @@ class OrderController extends Controller
     public function canResponse(Request $request): JsonResponse
     {
         return (new CheckUserCanRespondToOrderCommand())
+            ->setUserId((int) $request->get('user_id'))
+            ->setOrderId((int) $request->get('order_id'))
+            ->execute();
+    }
+
+    public function orderResponse(Request $request): JsonResponse
+    {
+        return (new UserRespondToOrderCommand())
             ->setUserId((int) $request->get('user_id'))
             ->setOrderId((int) $request->get('order_id'))
             ->execute();

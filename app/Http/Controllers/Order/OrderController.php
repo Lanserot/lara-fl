@@ -55,7 +55,7 @@ class OrderController extends Controller
 
         $can_response = (new CheckUserCanRespondToOrderCommand())
             ->setOrderId($id)
-            ->setUserId(auth()->user()->getAuthIdentifier())
+            ->setUserId(auth()->user()?->getAuthIdentifier() ?? 0)
             ->execute();
 
         return view("order/show", [
