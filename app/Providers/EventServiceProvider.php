@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\AddAvatarFile;
 use App\Events\OrderCreated;
+use App\Listeners\AddAvatarFileRelationship;
 use App\Listeners\CreateOrderCategoryRelationship;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCreated::class => [
             CreateOrderCategoryRelationship::class,
+        ],
+        AddAvatarFile::class => [
+            AddAvatarFileRelationship::class,
         ],
     ];
 

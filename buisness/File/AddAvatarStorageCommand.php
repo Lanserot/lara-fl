@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Buisness\File;
 
+use App\Events\AddAvatarFile;
 use Buisness\File\Security\CanAddFileCommand;
 use Illuminate\Http\JsonResponse;
+use Infrastructure\Enums\FileGroupsEnum;
 use Infrastructure\Interfaces\IFileStorageRepository;
 use Infrastructure\Tools\JsonFormatter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class AddFileStorageCommand
  * @package Buisness\File
  */
-class AddFileStorageCommand
+class AddAvatarStorageCommand
 {
     private UploadedFile $file;
 
@@ -29,7 +31,9 @@ class AddFileStorageCommand
         }
         /** @var IFileStorageRepository $order_repository */
         $order_repository = app(IFileStorageRepository::class);
-        $result = $order_repository->save($this->file);
+        $result = $order_repository->save($this->file, FileGroupsEnum::AVATAR->value);
+        event(new AddAvatarFile($order_repository->getLastId()));
+
         if ($result) {
             return JsonFormatter::makeAnswer(Response::HTTP_OK);
         }

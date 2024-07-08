@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Buisness\Order\Security;
 
-use App\Enums\RolePermissions;
 use Infrastructure\BaseCommand;
+use Infrastructure\Enums\RolePermissionsEnum;
 use Infrastructure\Interfaces\User\IUserRepository;
 use Infrastructure\Repositories\UserRepository;
 use Spatie\Permission\Models\Role;
@@ -27,8 +27,8 @@ class CanAddOrderCommand extends BaseCommand
         );
 
         return $role->hasAnyPermission([
-            RolePermissions::API->value,
-            RolePermissions::API_USER->value
+            RolePermissionsEnum::API->value,
+            RolePermissionsEnum::API_USER->value
         ]);
     }
 }

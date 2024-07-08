@@ -28,7 +28,7 @@ class UserController extends Controller
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }
-        $user_info = $rep->getUserInfoByUserId($user->getId());
+        $user_info = $rep->getUserInfoByIdEntity($user->getId());
         $file_path = FileStorage::query()
             ->where(FileStorage::FIELD_GROUP, '=', 1)
             ->where(FileStorage::FIELD_USER_ID, '=', $id)
@@ -47,7 +47,7 @@ class UserController extends Controller
         if($user instanceof NullUserEntity){
             throw new Exception('Что-то не так');
         }
-        $user_info = $rep->getUserInfoByUserId($user->getId());
+        $user_info = $rep->getUserInfoByIdEntity($user->getId());
         return view('user/edit', ['user' => $user, 'user_info' => $user_info]);
     }
 }

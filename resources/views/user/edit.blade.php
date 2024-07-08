@@ -1,5 +1,7 @@
 @php use Buisness\User\Entity\UserEntity; @endphp
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'Изменение пользователя')
+@section('content')
 <?php
 /** @var UserEntity $user */
 ?>
@@ -70,4 +72,4 @@
         })
     });
 </script>
-@include('resources.base.footer')
+@endsection

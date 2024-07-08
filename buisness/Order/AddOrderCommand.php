@@ -37,8 +37,8 @@ class AddOrderCommand extends BaseCommand
         /** @var OrderRepository $order_repository */
         $order_repository = app(IOrderRepository::class);
         $result = $order_repository->save($this->order_vo);
-        event(new OrderCreated($order_repository->getLastId(), $this->category_id));
         if ($result) {
+            event(new OrderCreated($order_repository->getLastId(), $this->category_id));
             return JsonFormatter::makeAnswer(Response::HTTP_OK);
         }
         return JsonFormatter::makeAnswer(Response::HTTP_INTERNAL_SERVER_ERROR);

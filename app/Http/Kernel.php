@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AuthenticateSwagger;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -21,6 +20,7 @@ class Kernel extends HttpKernel
         'not.login' => \App\Http\Middleware\isNotLogin::class,
         'is.login' => \App\Http\Middleware\IsLogin::class,
         'jwt.auth' => \App\Http\Middleware\JWTAuthMiddleware::class,
+        'is.admin' => \App\Http\Middleware\User\IsAdmin::class,
     ];
     /**
      * The application's route middleware groups.

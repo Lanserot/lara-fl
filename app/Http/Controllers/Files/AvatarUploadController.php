@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Files;
 
 use App\Http\Controllers\Controller;
-use Buisness\File\AddFileStorageCommand;
+use Buisness\File\AddAvatarStorageCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class FileUploadController extends Controller
+class AvatarUploadController extends Controller
 {
     public function store(Request $request)
     {
@@ -18,7 +18,7 @@ class FileUploadController extends Controller
         if($validator = \Infrastructure\Tools\Validator::validateData($validator)){
             return $validator;
         }
-        return (new AddFileStorageCommand())
+        return (new AddAvatarStorageCommand())
             ->setFileVO($request->file('file'))
             ->execute();
     }

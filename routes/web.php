@@ -26,6 +26,7 @@ Route::middleware(['not.login'])->group(function () {
 Route::middleware(['is.login'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('show/{id}', [UserController::class, 'show'])->name('user.show');
+        Route::get('my_list', [OrderController::class, 'myList'])->name('user.my_list');
         Route::get('edit/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });
@@ -45,7 +46,12 @@ Route::middleware(['is.login'])->group(function () {
     });
 
 });
+Route::prefix('user/admin')->group(function () {
+    Route::middleware(['is.admin'])->group(function () {
+        Route::get('/', [\App\Http\Controllers\User\Admin\AdminController::class, 'index']);
 
+    });
+});
 Route::get('/order/list', [OrderController::class, 'list'])->name('order.list');
 Route::get('/order/category/{category}', [OrderController::class, 'category'])->name('order.category');
 Route::get('/order/show/{id}', [OrderController::class, 'show'])->name('order.show');

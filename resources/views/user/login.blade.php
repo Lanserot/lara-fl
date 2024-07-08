@@ -1,4 +1,6 @@
-@include('resources.base.headers')
+@extends('resources.base.headers')
+@section('title', 'Логин')
+@section('content')
 <div>
     <div class="form-group">
         <input type="text" class="form-control" name="login" placeholder="Email">
@@ -37,4 +39,4 @@
         })
     });
 </script>
-@include('resources.base.footer')
+@endsection

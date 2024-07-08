@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace Infrastructure\Enums;
 
-enum RolePermissions: string
+enum RolePermissionsEnum: string
 {
     case API = 'api';
     case API_USER = 'api_user';

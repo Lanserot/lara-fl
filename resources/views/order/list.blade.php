@@ -1,5 +1,6 @@
-@include('resources.base.headers')
-
+@extends('resources.base.headers')
+@section('title', 'Список заказов')
+@section('content')
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     @if(empty($orders))
         <h4>Упс... ничего нет...</h4>
@@ -15,4 +16,4 @@
         @endforeach
     @endif
 </div>
-@include('resources.base.footer')
+@endsection

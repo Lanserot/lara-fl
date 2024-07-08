@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Order\Api;
 
 use App\Http\Controllers\Controller;
+use App\Rules\DateFormat;
+use Buisness\Order\CheckUserCanRespondToOrderCommand;
 use Buisness\Order\GetOrderCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Buisness\Order\AddOrderCommand;
@@ -20,7 +22,8 @@ class OrderController extends Controller
         $validator = Validator::make($data, [
             'title' => 'required|max:50',
             'description' => 'required',
-            'category' => 'required|int|not_in:0',
+            'budget' => 'required|int',
+            'date' => ['nullable', new DateFormat()],
         ]);
         $validator = \Infrastructure\Tools\Validator::validateData($validator);
         if ($validator) {
@@ -30,7 +33,11 @@ class OrderController extends Controller
         try {
             return (new AddOrderCommand())
                 ->setOrderVo(OrderVO::get(
-                    ...request(['title', 'description'])
+                    $request->get('title'),
+                    $request->get('description'),
+                    '',
+                    $request->get('budget'),
+                    $request->get('date'),
                 ))
                 ->setCategoryId($request->get('category'))
                 ->execute();
@@ -42,5 +49,13 @@ class OrderController extends Controller
     public function show(int $id): JsonResponse
     {
         return (new GetOrderCommand())->setOrderId($id)->execute();
+    }
+
+    public function canResponse(Request $request): JsonResponse
+    {
+        return (new CheckUserCanRespondToOrderCommand())
+            ->setUserId((int) $request->get('user_id'))
+            ->setOrderId((int) $request->get('order_id'))
+            ->execute();
     }
 }

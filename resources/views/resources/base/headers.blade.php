@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
 
+    <link rel="icon" type="image/x-icon" href="{{ mix('resources/icons/favicon-32.ico') }}">
+
+    <title>@yield('title')</title>
+    <script src="{{  mix('resources/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{  mix('resources/js/tinymce.min.js') }}"></script>
+    <script src="{{  mix('resources/js/popper.min.js') }}"></script>
+    <script src="{{  mix('resources/js/bootstrap.min.js') }}"></script>
     <!-- <title>Laravel</title> -->
-    <title>Demo Version</title>
-    <script src="/js/jquery-3.7.1.min.js"></script>
-    <script src="/js/tinymce.min.js"></script>
+{{--    <title>Demo Version</title>--}}
+{{--    <script src="/js/jquery-3.7.1.min.js"></script>--}}
+{{--    <script src="/js/tinymce.min.js"></script>--}}
 
     <!-- Fonts -->
     {{--    <link rel="preconnect" href="https://fonts.bunny.net">--}}
@@ -26,6 +33,7 @@
     </style>
 </head>
 <body class="antialiased">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <nav class="navbar navbar-danger">
     DEMO версия
 </nav>
@@ -39,8 +47,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             @if (Auth::check())
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{route('user.show', Auth::user()->id)}}">{{ Auth::user()->login }}</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Профиль
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                        <li><a class="dropdown-item" href="{{route('user.show', Auth::user()->id)}}">Профиль</a></li>
+                        <li><a class="dropdown-item" href="{{route('user.my_list')}}">Мои заказы</a></li>
+                        {{--                        <li><hr class="dropdown-divider"></li>--}}
+                        {{--                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
+                    </ul>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('order') }}">Создать</a>
@@ -49,7 +66,16 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('order.list') }}">Заказы</a>
             </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
             @if (Auth::check())
+                @if (Auth::user()->hasRole(\Infrastructure\Enums\RolesEnum::ADMIN->value))
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/user/admin">Админ</a>
+                    </li>
+                @endif
                 <li class="nav-item active">
                     <a class="nav-link" href="{{ route('logout') }}">Выход</a>
                 </li>
@@ -65,3 +91,9 @@
     </div>
 </nav>
 <div class="container mt-5">
+    @yield('content')
+</div>
+<link href="{{ mix('resources/css/bootstrap.min.css') }}" rel="stylesheet">
+
+</body>
+</html>

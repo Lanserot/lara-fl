@@ -31,4 +31,9 @@ final class NullUserInfoEntity implements IUserInfoEntity
     {
         return 0;
     }
+
+    public function getAvatarId(): int
+    {
+        return 0;
+    }
 }

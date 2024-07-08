@@ -221,7 +221,7 @@
                 "tags": [
                     "Files"
                 ],
-                "summary": "Save file",
+                "summary": "Save avatar file",
                 "description": "Добавления картинки на сервер",
                 "operationId": "createFile",
                 "requestBody": {

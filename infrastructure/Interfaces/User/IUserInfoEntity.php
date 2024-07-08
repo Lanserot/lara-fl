@@ -17,4 +17,5 @@ interface IUserInfoEntity
     public function getSecondName(): string;
 
     public function getId(): int;
+    public function getAvatarId(): int;
 }

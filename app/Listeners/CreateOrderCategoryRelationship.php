@@ -7,7 +7,6 @@ use App\Models\Order\OrderToCategory;
 
 class CreateOrderCategoryRelationship
 {
-
     public function handle(OrderCreated $event)
     {
         OrderToCategory::create([

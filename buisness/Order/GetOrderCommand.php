@@ -11,9 +11,7 @@ use Infrastructure\Tools\JsonFormatter;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class addOrderCommand
- * @package Buisness\Order
- * TODO: Сделать тест
+ * @see \Tests\Unit\buisness\Order\Command\GetOrderCommandTest
  */
 class GetOrderCommand extends BaseCommand
 {
@@ -23,11 +21,11 @@ class GetOrderCommand extends BaseCommand
     {
         /** @var IOrderRepository $order_repository */
         $order_repository = app(IOrderRepository::class);
-        $order = $order_repository->getById($this->order_id);
-        if(!$order){
+        $order = $order_repository->getModelById($this->order_id);
+        if(is_null($order)){
             return JsonFormatter::makeAnswer(Response::HTTP_NOT_FOUND);
         }
-        return JsonFormatter::makeAnswer(Response::HTTP_OK, json_encode($order));
+        return JsonFormatter::makeAnswer(Response::HTTP_OK, json_encode($order->toArray()));
     }
 
     public function setOrderId(int $order_id): self

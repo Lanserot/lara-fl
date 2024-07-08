@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace Infrastructure\Enums;
 
-enum Category: string
+enum CategoryEnum: string
 {
     CASE PROGRAMMING =  'programming';
     CASE MODEL_3D =     'model_3d';

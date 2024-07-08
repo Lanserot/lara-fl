@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Files\FileUploadController;
+use App\Http\Controllers\Files\AvatarUploadController;
 use App\Http\Controllers\Order\Api\OrderController;
 use App\Http\Controllers\User\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,13 +17,14 @@ Route::middleware('jwt.auth')->group(function () {
             'show' => 'user.show',
         ]
     )->only(['update', 'show']);
+    Route::get('/order/can_response', [OrderController::class, 'canResponse']);
     Route::apiResource('orders', OrderController::class)->names(
         [
             'store' => 'order.create',
             'show' => 'order.view',
         ]
     )->only(['store', 'show']);
-    Route::apiResource('files', FileUploadController::class)->names(
+    Route::apiResource('files', AvatarUploadController::class)->names(
         [
             'store' => 'file.upload'
         ]
