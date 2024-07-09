@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         'is.login' => \App\Http\Middleware\IsLogin::class,
         'jwt.auth' => \App\Http\Middleware\JWTAuthMiddleware::class,
         'is.admin' => \App\Http\Middleware\User\IsAdmin::class,
+        'rate.limit' => \App\Http\Middleware\RateLimitByRedis::class,
     ];
     /**
      * The application's route middleware groups.

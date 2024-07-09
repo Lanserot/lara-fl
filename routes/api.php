@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 //'show' => 'posts.view',
 //'update' => 'posts.edit',
 //'destroy' => 'posts.delete'
-Route::middleware('jwt.auth')->group(function () {
+Route::middleware(['jwt.auth', 'rate.limit'])->group(function () {
     Route::apiResource('users', UserController::class)->names(
         [
             'update' => 'user.update',
