@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
 
-    <link rel="icon" type="image/x-icon" href="{{ mix('resources/icons/favicon-32.ico') }}">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon-32.ico">
 
     <title>@yield('title')</title>
-    <script src="{{  mix('resources/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{  mix('resources/js/tinymce.min.js') }}"></script>
-    <script src="{{  mix('resources/js/popper.min.js') }}"></script>
-    <script src="{{  mix('resources/js/bootstrap.min.js') }}"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/tinymce.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- <title>Laravel</title> -->
 {{--    <title>Demo Version</title>--}}
 {{--    <script src="/js/jquery-3.7.1.min.js"></script>--}}
@@ -33,7 +33,6 @@
     </style>
 </head>
 <body class="antialiased">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <nav class="navbar navbar-danger">
     DEMO версия
 </nav>
@@ -93,7 +92,7 @@
 <div class="container mt-5">
     @yield('content')
 </div>
-<link href="{{ mix('resources/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
 
 </body>
 </html>
