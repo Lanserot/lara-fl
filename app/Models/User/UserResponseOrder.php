@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models\User
  * @property int $user_id
  * @property int $order_id
+ * @property int $owner_id
  */
 class UserResponseOrder extends Model
 {

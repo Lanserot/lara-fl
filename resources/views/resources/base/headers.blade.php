@@ -33,6 +33,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                         <li><a class="dropdown-item" href="{{route('user.show', Auth::user()->id)}}">Профиль</a></li>
                         <li><a class="dropdown-item" href="{{route('user.my_list')}}">Мои заказы</a></li>
+                        <li><a class="dropdown-item" href="{{route('user.chat')}}">Мои сообщения</a></li>
                         {{--                        <li><hr class="dropdown-divider"></li>--}}
                         {{--                        <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
                     </ul>

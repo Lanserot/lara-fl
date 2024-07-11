@@ -16,11 +16,21 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('owner_id');
 
             $table->unique(['user_id', 'order_id']);
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders')
+                ->onDelete('cascade');
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('users');
+            $table->index('owner_id');
 
             $table->timestamps();
         });

@@ -7,6 +7,7 @@ namespace Buisness\Order;
 use App\Models\User\UserResponseOrder;
 use Illuminate\Support\Facades\Log;
 use Infrastructure\BaseCommand;
+use Infrastructure\Interfaces\Order\IOrderRepository;
 use Infrastructure\Tools\JsonFormatter;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +30,14 @@ class UserRespondToOrderCommand extends BaseCommand
             ->execute()) {
             return JsonFormatter::makeAnswer(Response::HTTP_NOT_ACCEPTABLE);
         }
+        /** @var IOrderRepository $order_repository */
+        $order_repository = app(IOrderRepository::class);
+        $owner_id = $order_repository->getOrderOwnerId($this->order_id);
 
         $user_response_order_model = new UserResponseOrder();
         $user_response_order_model->user_id = $this->user_id;
         $user_response_order_model->order_id = $this->order_id;
+        $user_response_order_model->owner_id = $owner_id;
 
         try {
             $user_response_order_model->save();

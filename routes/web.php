@@ -4,7 +4,9 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Site\AboutController;
 use App\Http\Controllers\Tools\SwaggerController;
+use App\Http\Controllers\User\Admin\AdminController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\Chat\ChatController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegistrationController;
 use App\Http\Controllers\User\UserController;
@@ -29,6 +31,7 @@ Route::middleware(['is.login'])->group(function () {
         Route::get('my_list', [OrderController::class, 'myList'])->name('user.my_list');
         Route::get('edit/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+        Route::get('chat', [ChatController::class, 'index'])->name('user.chat');
     });
     Route::prefix('site')->group(function () {
         Route::get('about', [AboutController::class, 'index']);
@@ -48,7 +51,7 @@ Route::middleware(['is.login'])->group(function () {
 });
 Route::prefix('user/admin')->group(function () {
     Route::middleware(['is.admin'])->group(function () {
-        Route::get('/', [\App\Http\Controllers\User\Admin\AdminController::class, 'index']);
+        Route::get('/', [AdminController::class, 'index']);
 
     });
 });
