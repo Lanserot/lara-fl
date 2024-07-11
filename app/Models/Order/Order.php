@@ -33,5 +33,5 @@ class Order extends Model
     protected function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->toDateString();
-    }
+    }    
 }

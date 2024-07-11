@@ -18,5 +18,14 @@ class UserResponseOrder extends Model
 
     protected $table = 'user_response_order';
     protected $fillable = ['user_id', 'order_id'];
+    
+    public function user_info()
+    {
+        return $this->belongsTo(\App\Models\User\UserInfo::class, 'user_id');
+    }
 
+    public function order()
+    {
+        return $this->belongsTo(\App\Models\Order\Order::class, 'order_id', 'id');
+    }
 }

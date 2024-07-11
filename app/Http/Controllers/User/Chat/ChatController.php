@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\User\Chat;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\Order;
-use App\Models\User\User;
-use App\Models\User\UserInfo;
 use App\Models\User\UserResponseOrder;
 
 class ChatController extends Controller
@@ -13,12 +10,15 @@ class ChatController extends Controller
     public function index()
     {
         //TODO: в комманду
-        $response = UserResponseOrder::query()
-            ->whereIn('owner_id', auth()->user()->getAuthIdentifier())
-            ->get();
+        // $response = UserResponseOrder::query()
+        //     ->where('owner_id', auth()->user()->getAuthIdentifier())
+        //     ->get();
         // отклик - ордер
+        $owner_id = auth()->user()->getAuthIdentifier();
+        $response = UserResponseOrder::where("owner_id", $owner_id)->get();
 
 
-        return view('user/chat/index', ['users' => $users, 'orders' => $orders]);
+
+        return view('user/chat/index', ['responses' => $response]);
     }
 }
