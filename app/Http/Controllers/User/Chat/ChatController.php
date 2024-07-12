@@ -9,16 +9,7 @@ class ChatController extends Controller
 {
     public function index()
     {
-        //TODO: в комманду
-        // $response = UserResponseOrder::query()
-        //     ->where('owner_id', auth()->user()->getAuthIdentifier())
-        //     ->get();
-        // отклик - ордер
-        $owner_id = auth()->user()->getAuthIdentifier();
-        $response = UserResponseOrder::where("owner_id", $owner_id)->get();
-
-
-
+        $response = UserResponseOrder::where("owner_id", auth()->user()->getAuthIdentifier())->get();
         return view('user/chat/index', ['responses' => $response]);
     }
 }
